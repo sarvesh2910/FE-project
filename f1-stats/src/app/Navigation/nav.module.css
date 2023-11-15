@@ -1,0 +1,36 @@
+.stickyPos{
+    position: absolute;
+    display: flex;
+    width: 100%;
+}
+.container{
+    background: white;
+    display: flex;
+    width: 100%;
+    height: var(--navbar-height);
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid grey;
+    padding: 0 10px;
+    position: sticky;
+    top: 0px;
+}
+.logo{
+    flex-grow: 2;
+}
+
+.links{
+    justify-content: space-around;
+    flex-grow: 6;
+    display: flex;
+}
+.search{
+    justify-content: flex-end;
+    display: flex;
+    flex-grow: 2;
+}
+.searchBar{
+    width: 300px;
+    padding: 8px;
+
+}
