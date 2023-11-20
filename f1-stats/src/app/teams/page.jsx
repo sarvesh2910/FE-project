@@ -1,6 +1,6 @@
 "use client"; // This is a client component
 import { React, useState, useEffect } from "react";
-
+import Link from 'next/link'
 
 const Teams = () => {
 
@@ -29,9 +29,11 @@ const Teams = () => {
   return (
     <div>
       <h1>Teams</h1>
-      <ul class="teams">
+      <ul className="teams">
         {teams.map((team) => (
-          <li key={team.constructorId}>{team.name}</li>
+          <li key={team.constructorId}>
+            <Link href={`/teams/${team.name}`}>{team.name}</Link>
+          </li>
         ))}
       </ul>
     </div>
