@@ -1,5 +1,5 @@
 "use client"; // This is a client component
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect } from 'react';
 import Link from 'next/link'
 
 const Teams = () => {
@@ -15,8 +15,8 @@ const Teams = () => {
 
         // Now turn data into a json readable format
         const data = await response.json();
-        setTeams(data["MRData"]["ConstructorTable"]["Constructors"]);
-        console.log(data["MRData"]["ConstructorTable"]["Constructors"]);
+        setTeams(data['MRData']['ConstructorTable']['Constructors']);
+        console.log(data['MRData']['ConstructorTable']['Constructors']);
         console.log(teams);
 
       } catch (error) {
@@ -31,7 +31,7 @@ const Teams = () => {
   return (
     <div>
       <h1>Teams</h1>
-      <ul className="teams">
+      <ul className='teams'>
         {teams.map((team) => (
           <li key={team.constructorId}>
             <Link href={`/teams/${team.constructorId}`}>{team.name}</Link>

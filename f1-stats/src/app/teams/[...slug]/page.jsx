@@ -1,10 +1,10 @@
 'use client'
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 
 const Team = () => {
 
-  const [team, setTeam] = useState({ constructorId: "", name: "", url: "", nationality: ""});
+  const [team, setTeam] = useState({ constructorId: '', name: '', url: '', nationality: ''});
   const teamId = useParams()['slug'];
   const url = `http://ergast.com/api/f1/constructors/${teamId}.json`;
   console.log(`url = ${url}`);
@@ -17,16 +17,22 @@ const Team = () => {
 
         // Now turn data into a json readable format
         const data = await response.json();
-        const constructor = data["MRData"]["ConstructorTable"]["Constructors"][0];
-        setTeam(
-          prevState => ({
-            ...prevState,
-            constructorId: constructor.constructorId,
-            name: constructor.name,
-            url: constructor.url,
-            nationality: constructor.nationality
-        }));
-        console.log(team);
+        const constructor = data['MRData']['ConstructorTable']['Constructors'][0];
+
+        if (constructor) {
+          setTeam(
+            prevState => ({
+              ...prevState,
+              constructorId: constructor.constructorId,
+              name: constructor.name,
+              url: constructor.url,
+              nationality: constructor.nationality
+          }));
+          console.log(team);
+        } else {
+          console.log('No constructors/teams found');
+        }
+        
 
       } catch (error) {
         // Error from API fetch
