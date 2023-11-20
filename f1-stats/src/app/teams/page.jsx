@@ -16,6 +16,8 @@ const Teams = () => {
         // Now turn data into a json readable format
         const data = await response.json();
         setTeams(data["MRData"]["ConstructorTable"]["Constructors"]);
+        console.log(data["MRData"]["ConstructorTable"]["Constructors"]);
+        console.log(teams);
 
       } catch (error) {
         // Error from API fetch
@@ -32,7 +34,7 @@ const Teams = () => {
       <ul className="teams">
         {teams.map((team) => (
           <li key={team.constructorId}>
-            <Link href={`/teams/${team.name}`}>{team.name}</Link>
+            <Link href={`/teams/${team.constructorId}`}>{team.name}</Link>
           </li>
         ))}
       </ul>

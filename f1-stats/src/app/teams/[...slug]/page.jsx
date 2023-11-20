@@ -4,9 +4,10 @@ import { useParams } from 'next/navigation';
 
 const Team = () => {
 
-  const [team, setTeam] = useState([]);
-  const teamName = useParams()['slug'];
-  const url = `http://ergast.com/api/f1/constructors/${teamName}.json`;
+  const [team, setTeam] = useState({ constructorId: "", name: "", url: "", nationality: ""});
+  const teamId = useParams()['slug'];
+  const url = `http://ergast.com/api/f1/constructors/${teamId}.json`;
+  console.log(`url = ${url}`);
 
   // Fetch data from API asyncronously
   useEffect(() => {
@@ -16,7 +17,15 @@ const Team = () => {
 
         // Now turn data into a json readable format
         const data = await response.json();
-        setTeam(data["MRData"]["ConstructorTable"]["Constructors"][0]);
+        const constructor = data["MRData"]["ConstructorTable"]["Constructors"][0];
+        setTeam(
+          prevState => ({
+            ...prevState,
+            constructorId: constructor.constructorId,
+            name: constructor.name,
+            url: constructor.url,
+            nationality: constructor.nationality
+        }));
         console.log(team);
 
       } catch (error) {
@@ -30,8 +39,9 @@ const Team = () => {
 
   return (
     <div>
-      <h1>{teamName}</h1>
-      <p>{team.id}</p>
+      <h1>{team.name}</h1>
+      <a href={team.url} target='_blank'>View on Wikipedia</a>
+      <p>Nationality: {team.nationality}</p>
     </div>
   );
 };
