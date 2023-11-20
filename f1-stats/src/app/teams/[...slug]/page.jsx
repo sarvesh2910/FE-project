@@ -44,10 +44,35 @@ const Team = () => {
   }, []);
 
   return (
-    <div>
-      <h1>{team.name}</h1>
+    <div class='container'>
+      <h1>{team.name}, <span className='nationality'>{team.nationality}</span></h1>
       <a href={team.url} target='_blank'>View on Wikipedia</a>
-      <p>Nationality: {team.nationality}</p>
+      <div className='row stats'>
+        <div className='col-3 stat'>
+          <p>Stat #1</p>
+        </div>
+        <div className='col-3 stat'>
+          <p>Stat #2</p>
+        </div>
+        <div className='col-3 stat'>
+          <p>Stat #3</p>
+        </div>
+        <div className='col-3 stat'>
+          <p>Stat #4</p>
+        </div>
+      </div>
+      <div className='row previous-data'>
+        <div className='col-6'>
+          <div class='previous-years-championship'>
+            <p>Previous Year's Championship Points</p>
+          </div>
+        </div>
+        <div className='col-6'>
+        <div class='previous-match-best-finish-position'>
+          <p>Previous Match Best Finish Position</p>
+        </div>
+        </div>
+      </div>
     </div>
   );
 };
