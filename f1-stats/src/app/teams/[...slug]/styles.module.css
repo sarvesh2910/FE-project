@@ -1,0 +1,33 @@
+.nationality {
+    font-size: 15px;
+}
+
+.seasonTitle {
+    margin: 15px 0px;
+}
+
+.drivers {
+    margin: 15px 0px;
+}
+
+.stats {
+    margin: 15px 0px;
+}
+
+.stat {
+    border: 1px solid grey;
+}
+
+
+.previousData {
+    margin-top: 20px;
+    background: red;
+}
+
+.previousYearsChampionship {
+    border: 2px solid blue;
+}
+
+.previousMatchBestFinishPosition {
+    border: 2px solid yellow;
+}
