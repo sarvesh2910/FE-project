@@ -4,7 +4,8 @@ import Link from 'next/link'
 
 const Teams = () => {
 
-  const url = 'http://ergast.com/api/f1/constructors.json';
+  const season = 2021;
+  const url = `http://ergast.com/api/f1/${season}/constructors.json`;
   const [teams, setTeams] = useState([]);
 
   // Fetch data from API asyncronously
@@ -29,8 +30,9 @@ const Teams = () => {
   }, []);
 
   return (
-    <div>
+    <div className='container'>
       <h1>Teams</h1>
+      <h2>{season} Season</h2>
       <ul className='teams'>
         {teams.map((team) => (
           <li key={team.constructorId}>
