@@ -9,7 +9,7 @@ const Team = () => {
   const teamId = useParams()['slug'];
 
   // Get season
-  const season = 2022;
+  const season = 2021;
 
   // Set states for team & drivers for team
   const [team, setTeam] = useState({ constructorId: '', name: '', url: '', nationality: ''});
@@ -77,7 +77,7 @@ const Team = () => {
       <h1>{team.name}, <span className={styles.nationality}>{team.nationality}</span></h1>
       <a href={team.url} target='_blank'>View on Wikipedia</a>
       <div className={styles.seasonTitle}>
-        <h2>Season {season}</h2>
+        <h2>{season} Season</h2>
       </div>
       <div className={styles.drivers}>
         <h2>Drivers</h2>
