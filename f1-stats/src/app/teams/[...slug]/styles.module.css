@@ -10,6 +10,10 @@
     margin: 15px 0px;
 }
 
+.drivers li {
+    list-style: inside;
+}
+
 .stats {
     margin: 15px 0px;
 }

@@ -73,7 +73,7 @@ const Team = () => {
   }, []);
 
   return (
-    <div class='container team'>
+    <div className={`${styles.team} container`}>
       <h1>{team.name}, <span className={styles.nationality}>{team.nationality}</span></h1>
       <a href={team.url} target='_blank'>View on Wikipedia</a>
       <div className={styles.seasonTitle}>
