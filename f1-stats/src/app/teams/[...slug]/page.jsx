@@ -48,7 +48,6 @@ const Team = () => {
               url: constructor.url,
               nationality: constructor.nationality
           }));
-          console.log(team);
         } else {
           console.log('No constructors/teams found');
         }
@@ -67,7 +66,7 @@ const Team = () => {
 
         // Now turn data into a json readable format
         const data = await response.json();
-        console.log(data);
+
         setTeamDrivers(data['MRData']['DriverTable']['Drivers']);
         console.log(data['MRData']['DriverTable']['Drivers']);
         console.log(teamDrivers);
@@ -108,21 +107,18 @@ const Team = () => {
 
         //Results
         let results = [];
-        console.log(races[0]['Results']);
 
         for (let i = 0; i < races.length; i++) {
 
             results.push(races[i]['Results']);
 
             totalPoints += races[i]['Results'].reduce( function(prev, current){
-              console.log(`prev = ${prev}, current = ${current['points']}`);
               return parseInt(prev) + parseInt(current['points']);
             }, 0);
 
 
             const highestResult = races[i]['Results'].reduce(function(prev, current) {
               totalPoints += parseInt(current.points);
-              console.log(totalPoints);
 
               if (+current.points > +prev.points) {
                   return current;
@@ -159,9 +155,6 @@ const Team = () => {
 
         }
 
-        console.log('Results:');
-        console.log(results);
-
         // Set total using accumulated points
         setTotal(totalPoints);
 
@@ -188,8 +181,8 @@ const Team = () => {
         }));
 
         // Now get individual results for races
-        console.log(races);
-        console.log(results);
+        //console.log(races);
+        //console.log(results);
 
       } catch (error) {
         // Error from API fetch
@@ -204,7 +197,6 @@ const Team = () => {
         // Now turn data into a json readable format
         const data = await response.json();
         const lastYearRaces = data['MRData']['RaceTable']['Races'];
-        console.log(lastYearRaces);
 
         let resultArray = [];
 
@@ -212,12 +204,10 @@ const Team = () => {
           for (let j = 0; j < lastYearRaces[i]['Results'].length; j++)
           {
             resultArray.push(lastYearRaces[i]['Results'][j]['points']);
-            //setlastYearTeamResults([...lastYearTeamResults, lastYearRaces[i]['Results'][j]['points']]); //simple value
           }
         };
 
         setLastYearTeamResults(resultArray);
-        console.log(lastYearTeamResults);
 
       } catch (error) {
         // Error from API fetch
