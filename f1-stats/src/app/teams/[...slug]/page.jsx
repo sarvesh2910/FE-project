@@ -2,6 +2,27 @@
 import { React, useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import styles from './styles.module.css'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const Team = () => {
 
@@ -222,6 +243,39 @@ const Team = () => {
     getLastYearResults();
   }, []);
 
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Chart.js Line Chart',
+      },
+    },
+  };
+
+  const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Dataset 1',
+        data: labels,
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+      {
+        label: 'Dataset 2',
+        data: labels,
+        borderColor: 'rgb(53, 162, 235)',
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      },
+    ],
+  };
+
   return (
     <div className={`${styles.team} container`}>
       <h1>{team.name}, <span className={styles.nationality}>{team.nationality}</span></h1>
@@ -290,8 +344,8 @@ const Team = () => {
             <div className={styles.previousYearsChampionship}>
               <p>Previous Year Championship Points</p>
               <ul className='points'>
-                {lastYearTeamResults.map((result) => (
-                  <li key={result}>
+                {lastYearTeamResults.map((result, index) => (
+                  <li key={index}>
                     {result}
                   </li>
                 ))}
@@ -301,6 +355,7 @@ const Team = () => {
           <div className='col-sm-6'>
             <div className={styles.previousMatchBestFinishPosition}>
               <p>Previous Match Best Finish Position</p>
+              <Line options={options} data={data} />
             </div>
           </div>
         </div>
