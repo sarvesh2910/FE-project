@@ -8,17 +8,19 @@ import {
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Line } from 'react-chartjs-2';
+import { Line, Bar } from 'react-chartjs-2';
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend
@@ -127,14 +129,20 @@ const Team = () => {
         let lowestScoreStatus = '';
 
         //Results
-        let results = [];
+        let resultArray = [];
 
         for (let i = 0; i < races.length; i++) {
 
-            results.push(races[i]['Results']);
+            for (let j = 0; j < races[i]['Results'].length; j++)
+            {
+              resultArray.push(races[i]['Results'][j]['points']);
+              console.log(resultArray);
+            }
+
+            //results.push(races[i]['Results']);
 
             totalPoints += races[i]['Results'].reduce( function(prev, current){
-              return parseInt(prev) + parseInt(current['points']);
+              return parseInt(current['points']);
             }, 0);
 
 
@@ -204,6 +212,9 @@ const Team = () => {
         // Now get individual results for races
         //console.log(races);
         //console.log(results);
+        console.log(resultArray);
+        setTeamResults(resultArray);
+        
 
       } catch (error) {
         // Error from API fetch
@@ -217,7 +228,9 @@ const Team = () => {
 
         // Now turn data into a json readable format
         const data = await response.json();
+        console.log(data);
         const lastYearRaces = data['MRData']['RaceTable']['Races'];
+        console.log(lastYearRaces);
 
         let resultArray = [];
 
@@ -225,9 +238,11 @@ const Team = () => {
           for (let j = 0; j < lastYearRaces[i]['Results'].length; j++)
           {
             resultArray.push(lastYearRaces[i]['Results'][j]['points']);
+            console.log(resultArray);
           }
         };
 
+        console.log(resultArray);
         setLastYearTeamResults(resultArray);
 
       } catch (error) {
@@ -243,7 +258,7 @@ const Team = () => {
     getLastYearResults();
   }, []);
 
-  const options = {
+  const lineOptions = {
     responsive: true,
     plugins: {
       legend: {
@@ -251,30 +266,67 @@ const Team = () => {
       },
       title: {
         display: true,
-        text: 'Chart.js Line Chart',
+        text: 'Points Earned Per Grand Prix',
       },
     },
   };
 
-  const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  const lineLabels = teamRaces.map(race => race.raceName.replace(' Grand Prix', ''))
 
-  const data = {
-    labels,
+  //need to fix labels
+  const lineData = {
+    labels: lineLabels,
     datasets: [
       {
-        label: 'Dataset 1',
-        data: labels,
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        label: lastSeason,
+        data: lastYearTeamResults,
+        borderColor: 'blue',
+        backgroundColor: 'blue',
       },
       {
-        label: 'Dataset 2',
-        data: labels,
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      },
+        label: season,
+        data: teamResults,
+        borderColor: 'red',
+        backgroundColor: 'red',
+      }
     ],
   };
+
+  const barOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Points Earned Per Grand Prix',
+      },
+    },
+  };
+
+  const barLabels = teamRaces.map(race => race.raceName.replace(' Grand Prix', ''))
+
+  //need to fix labels
+  const barData = {
+    labels: barLabels,
+    datasets: [
+      {
+        label: lastSeason,
+        data: lastYearTeamResults,
+        borderColor: 'blue',
+        backgroundColor: 'blue',
+      },
+      {
+        label: season,
+        data: teamResults,
+        borderColor: 'red',
+        backgroundColor: 'red',
+      }
+    ],
+  };
+
+  
 
   return (
     <div className={`${styles.team} container`}>
@@ -306,7 +358,7 @@ const Team = () => {
           </div>
           <div className='col-md-3 col-sm-6'>
             <div className={styles.stat}>
-              <h3>Races:</h3>
+              <h3>Races</h3>
               <ul className='races'>
                 {teamRaces.map((race) => (
                   <li key={race.raceName}>
@@ -343,19 +395,13 @@ const Team = () => {
           <div className='col-sm-6'>
             <div className={styles.previousYearsChampionship}>
               <p>Previous Year Championship Points</p>
-              <ul className='points'>
-                {lastYearTeamResults.map((result, index) => (
-                  <li key={index}>
-                    {result}
-                  </li>
-                ))}
-              </ul>
+              <Line options={lineOptions} data={lineData} />
             </div>
           </div>
           <div className='col-sm-6'>
             <div className={styles.previousMatchBestFinishPosition}>
               <p>Previous Match Best Finish Position</p>
-              <Line options={options} data={data} />
+              <Bar options={barOptions} data={barData} />
             </div>
           </div>
         </div>
