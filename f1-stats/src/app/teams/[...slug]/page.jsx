@@ -33,6 +33,7 @@ const Team = () => {
 
   // Get season
   const season = useParams()['slug'][1];
+  // Need to handle when season is not in range/no info for season
 
   // Set states for team & drivers for team
   const [team, setTeam] = useState({ constructorId: '', name: '', url: '', nationality: ''});
@@ -49,7 +50,9 @@ const Team = () => {
   const teamUrl = `http://ergast.com/api/f1/${season}/constructors/${teamId}.json`;
   const teamDriversUrl = `https://ergast.com/api/f1/${season}/constructors/${teamId}/drivers.json`
   const teamResultsUrl = `http://ergast.com/api/f1/${season}/constructors/${teamId}/results.json`
+  const racesUrl = `http://ergast.com/api/f1/${season}.json`;
 
+  // Get last season year // need to handle when last year doesn't have data
   const lastSeason = season-1;
   const teamResultsLastYearUrl = `http://ergast.com/api/f1/${lastSeason}/constructors/${teamId}/results.json`
 
@@ -108,9 +111,11 @@ const Team = () => {
 
         // Now turn data into a json readable format
         const data = await response.json();
+        console.log(data);
 
         // Get races from data
         const races = data['MRData']['RaceTable']['Races'];
+        console.log(races);
         setTeamRaces(races);
 
         // Declare total points for constructor 
@@ -134,30 +139,45 @@ const Team = () => {
 
         for (let i = 0; i < races.length; i++) {
 
-            for (let j = 0; j < races[i]['Results'].length; j++)
+            /*for (let j = 0; j < races[i]['Results'].length; j++)
             {
+              //console.log(races[i]['Results'][j]['points']);
               resultArray.push(races[i]['Results'][j]['points']);
+            }*/
+
+            let j = 0;
+            if (resultArray.length > 0) {
+              j = parseInt(resultArray[resultArray.length-1]);
             }
 
-            //results.push(races[i]['Results']);
+            const thisRacePoints = parseInt(races[i]['Results'][0]['points']) + parseInt(races[i]['Results'][1]['points']);
 
-            totalPoints += races[i]['Results'].reduce( function(prev, current){
-              return parseInt(current['points']);
-            }, 0);
+            resultArray.push(j + thisRacePoints);
+
+            //results.push(races[i]['Results']);
+            console.log(resultArray);
+
+            console.log(`totalPoints = ${totalPoints}, first driver won ${races[i]['Results'][0]['points']} and second driver won ${races[i]['Results'][1]['points']}`)
+            totalPoints += thisRacePoints;
+            console.log(`totalPoints now = ${totalPoints}`);
 
 
             const highestResult = races[i]['Results'].reduce(function(prev, current) {
               totalPoints += parseInt(current.points);
 
               if (+current.points > +prev.points) {
+                  console.log(`current = ${current.points}`);
                   return current;
               } else {
+                console.log(`prev = ${prev.points}`);
                   return prev;
               }
               
             });
 
-            if (highestResult.points > highestScore) {
+            if (parseInt(highestResult.points) > parseInt(highestScore)) {
+                console.log(races[i]);
+                console.log(`${races[i].raceName} is highest scoring at ${highestResult.points}`);
                 highestScore = highestResult.points;
                 highestScoreRace = races[i].raceName;
                 highestScoreDriver = highestResult.Driver.familyName;
@@ -174,7 +194,7 @@ const Team = () => {
               }
             });
 
-            if (lowestResult.points < lowestScore) {
+            if (parseInt(lowestResult.points) < parseInt(lowestScore)) {
                 lowestScore = lowestResult.points;
                 lowestScoreRace = races[i].raceName;
                 lowestScoreDriver = lowestResult.Driver.familyName;
@@ -212,7 +232,9 @@ const Team = () => {
         // Now get individual results for races
         //console.log(races);
         //console.log(results);
+        console.log(resultArray);
         setTeamResults(resultArray);
+        console.log(teamResults);
         
 
       } catch (error) {
@@ -233,10 +255,20 @@ const Team = () => {
         let highestPosition = 0;
 
         for (let i = 0; i < lastYearRaces.length; i++) {
-          for (let j = 0; j < lastYearRaces[i]['Results'].length; j++)
+          /*for (let j = 0; j < lastYearRaces[i]['Results'].length; j++)
           {
+            
             resultArray.push(lastYearRaces[i]['Results'][j]['points']);
+          }*/
+          let j = 0;
+          if (resultArray.length > 0) {
+            j = parseInt(resultArray[resultArray.length-1]);
           }
+
+          const thisRacePoints = parseInt(lastYearRaces[i]['Results'][0]['points']) + parseInt(lastYearRaces[i]['Results'][1]['points']);
+
+          console.log(`${j} + ${parseInt(lastYearRaces[i]['Results'][0]['points'])} + ${parseInt(lastYearRaces[i]['Results'][1]['points'])}`);
+          resultArray.push(j + thisRacePoints);
 
           highestPosition = lastYearRaces[i]['Results'].reduce(function(prev, current) {
             if (+current.position > +prev.position) {
@@ -248,10 +280,6 @@ const Team = () => {
         };
 
         setLastYearTeamResults(resultArray);
-
-        
-
-        console.log(highestPosition)
 
         setTopScoreLastSeason(highestPosition);
 
@@ -275,7 +303,7 @@ const Team = () => {
         position: 'top',
       },
       title: {
-        display: true,
+        display: false,
         text: 'Points Earned Per Grand Prix',
       },
     },
@@ -299,7 +327,7 @@ const Team = () => {
         borderColor: 'red',
         backgroundColor: 'red',
       }
-    ],
+    ]
   };
 
   const barOptions = {
@@ -309,10 +337,10 @@ const Team = () => {
         position: 'top',
       },
       title: {
-        display: true,
+        display: false,
         text: 'Finish Positions by Season',
       },
-    },
+    }
   };
 
   const barLabels = ['Season Best Positions']
@@ -333,7 +361,7 @@ const Team = () => {
         borderColor: 'red',
         backgroundColor: 'red',
       }
-    ],
+    ]
   };
 
   
@@ -361,13 +389,13 @@ const Team = () => {
       <div className={styles.stats}>
         <div className='row'>
           <div className='col-md-3 col-sm-6'>
-            <div className={styles.stat}>
+            <div className={`${styles.stat} card`}>
               <h3>Total Points</h3>
-              <p>{total}</p>
+              <p className={styles.totalPoints}>{total}</p>
             </div>
           </div>
           <div className='col-md-3 col-sm-6'>
-            <div className={styles.stat}>
+            <div className={`${styles.stat} card`}>
               <h3>Races</h3>
               <ul className='races'>
                 {teamRaces.map((race) => (
@@ -379,8 +407,8 @@ const Team = () => {
             </div>
           </div>
           <div className='col-md-3 col-sm-6'>
-            <div className={styles.stat}>
-              <h3>Top Scoring Race</h3>
+            <div className={`${styles.stat} card`}>
+              <h3>Top Driver Score</h3>
               <p>Race: {topScoringRace.raceName}</p>
               <p>Driver: {topScoringRace.driver}</p>
               <p>Score: {topScoringRace.score}</p>
@@ -389,8 +417,8 @@ const Team = () => {
             </div>
           </div>
           <div className='col-md-3 col-sm-6'>
-            <div className={styles.stat}>
-              <h3>Lowest Scoring Race</h3>
+            <div className={`${styles.stat} card`}>
+              <h3>Lowest Driver Score</h3>
               <p>Race: {bottomScoringRace.raceName}</p>
               <p>Driver: {bottomScoringRace.driver}</p>
               <p>Score: {bottomScoringRace.score}</p>
@@ -403,13 +431,13 @@ const Team = () => {
       <div className={styles.previousData}>
         <div className='row'>
           <div className='col-sm-6'>
-            <div className={styles.previousYearsChampionship}>
+            <div className={`${styles.previousYearsChampionship} card`}>
               <p>Previous Year Championship Points</p>
               <Line options={lineOptions} data={lineData} />
             </div>
           </div>
           <div className='col-sm-6'>
-            <div className={styles.previousMatchBestFinishPosition}>
+            <div className={`${styles.previousMatchBestFinishPosition} card`}>
               <p>Previous Match Best Finish Position</p>
               <Bar options={barOptions} data={barData} />
             </div>

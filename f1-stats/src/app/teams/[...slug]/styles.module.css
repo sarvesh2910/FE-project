@@ -1,3 +1,7 @@
+.team {
+    background: white;
+}
+
 .nationality {
     font-size: 15px;
 }
@@ -19,19 +23,28 @@
 }
 
 .stat {
-    border: 1px solid grey;
+    padding: 1em;
+}
+
+.stat p {
+    margin-bottom: 0rem;
+}
+
+.totalPoints {
+    font-size: 2em;
 }
 
 
 .previousData {
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 
 .previousYearsChampionship {
-    border: 2px solid blue;
+    padding: 1em;
 }
 
 .previousMatchBestFinishPosition {
-    border: 2px solid yellow;
+    padding: 1em;
 }
