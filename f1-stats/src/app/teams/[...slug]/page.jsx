@@ -29,10 +29,10 @@ ChartJS.register(
 const Team = () => {
 
   // Get the constructor/team ID from slug
-  const teamId = useParams()['slug'];
+  const teamId = useParams()['slug'][0];
 
   // Get season
-  const season = 2021;
+  const season = useParams()['slug'][1];
 
   // Set states for team & drivers for team
   const [team, setTeam] = useState({ constructorId: '', name: '', url: '', nationality: ''});
@@ -43,13 +43,14 @@ const Team = () => {
   const [total, setTotal] = useState();
   const [topScoringRace, setTopScoringRace] = useState({raceName: '', driver: '', score: '', position: '', status: ''});
   const [bottomScoringRace, setBottomScoringRace] = useState({raceName: '', driver: '', score: '', position: '', status: ''});
+  const [topScoreLastSeason, setTopScoreLastSeason] = useState();
 
   // Initialize URLs for API requests
   const teamUrl = `http://ergast.com/api/f1/${season}/constructors/${teamId}.json`;
   const teamDriversUrl = `https://ergast.com/api/f1/${season}/constructors/${teamId}/drivers.json`
   const teamResultsUrl = `http://ergast.com/api/f1/${season}/constructors/${teamId}/results.json`
 
-  const lastSeason = 2021-1;
+  const lastSeason = season-1;
   const teamResultsLastYearUrl = `http://ergast.com/api/f1/${lastSeason}/constructors/${teamId}/results.json`
 
   // Fetch team data from API asyncronously
@@ -136,7 +137,6 @@ const Team = () => {
             for (let j = 0; j < races[i]['Results'].length; j++)
             {
               resultArray.push(races[i]['Results'][j]['points']);
-              console.log(resultArray);
             }
 
             //results.push(races[i]['Results']);
@@ -212,7 +212,6 @@ const Team = () => {
         // Now get individual results for races
         //console.log(races);
         //console.log(results);
-        console.log(resultArray);
         setTeamResults(resultArray);
         
 
@@ -228,22 +227,33 @@ const Team = () => {
 
         // Now turn data into a json readable format
         const data = await response.json();
-        console.log(data);
         const lastYearRaces = data['MRData']['RaceTable']['Races'];
-        console.log(lastYearRaces);
 
         let resultArray = [];
+        let highestPosition = 0;
 
         for (let i = 0; i < lastYearRaces.length; i++) {
           for (let j = 0; j < lastYearRaces[i]['Results'].length; j++)
           {
             resultArray.push(lastYearRaces[i]['Results'][j]['points']);
-            console.log(resultArray);
           }
+
+          highestPosition = lastYearRaces[i]['Results'].reduce(function(prev, current) {
+            if (+current.position > +prev.position) {
+                return current.position;
+            } else {
+                return prev.position;
+            }
+          });
         };
 
-        console.log(resultArray);
         setLastYearTeamResults(resultArray);
+
+        
+
+        console.log(highestPosition)
+
+        setTopScoreLastSeason(highestPosition);
 
       } catch (error) {
         // Error from API fetch
@@ -300,12 +310,12 @@ const Team = () => {
       },
       title: {
         display: true,
-        text: 'Points Earned Per Grand Prix',
+        text: 'Finish Positions by Season',
       },
     },
   };
 
-  const barLabels = teamRaces.map(race => race.raceName.replace(' Grand Prix', ''))
+  const barLabels = ['Season Best Positions']
 
   //need to fix labels
   const barData = {
@@ -313,13 +323,13 @@ const Team = () => {
     datasets: [
       {
         label: lastSeason,
-        data: lastYearTeamResults,
+        data: topScoreLastSeason,
         borderColor: 'blue',
         backgroundColor: 'blue',
       },
       {
         label: season,
-        data: teamResults,
+        data: topScoringRace.position,
         borderColor: 'red',
         backgroundColor: 'red',
       }
