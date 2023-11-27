@@ -139,32 +139,16 @@ const Team = () => {
 
         for (let i = 0; i < races.length; i++) {
 
-            /*for (let j = 0; j < races[i]['Results'].length; j++)
-            {
-              //console.log(races[i]['Results'][j]['points']);
-              resultArray.push(races[i]['Results'][j]['points']);
-            }*/
-
             let j = 0;
             if (resultArray.length > 0) {
               j = parseInt(resultArray[resultArray.length-1]);
             }
 
             const thisRacePoints = parseInt(races[i]['Results'][0]['points']) + parseInt(races[i]['Results'][1]['points']);
-
             resultArray.push(j + thisRacePoints);
-
-            //results.push(races[i]['Results']);
-            console.log(resultArray);
-
-            console.log(`totalPoints = ${totalPoints}, first driver won ${races[i]['Results'][0]['points']} and second driver won ${races[i]['Results'][1]['points']}`)
             totalPoints += thisRacePoints;
-            console.log(`totalPoints now = ${totalPoints}`);
-
 
             const highestResult = races[i]['Results'].reduce(function(prev, current) {
-              totalPoints += parseInt(current.points);
-
               if (+current.points > +prev.points) {
                   console.log(`current = ${current.points}`);
                   return current;
@@ -172,7 +156,6 @@ const Team = () => {
                 console.log(`prev = ${prev.points}`);
                   return prev;
               }
-              
             });
 
             if (parseInt(highestResult.points) > parseInt(highestScore)) {
@@ -255,11 +238,6 @@ const Team = () => {
         let highestPosition = 0;
 
         for (let i = 0; i < lastYearRaces.length; i++) {
-          /*for (let j = 0; j < lastYearRaces[i]['Results'].length; j++)
-          {
-            
-            resultArray.push(lastYearRaces[i]['Results'][j]['points']);
-          }*/
           let j = 0;
           if (resultArray.length > 0) {
             j = parseInt(resultArray[resultArray.length-1]);
@@ -330,19 +308,6 @@ const Team = () => {
     ]
   };
 
-  const barOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: false,
-        text: 'Finish Positions by Season',
-      },
-    }
-  };
-
   const barLabels = ['Season Best Positions']
 
   //need to fix labels
@@ -362,6 +327,29 @@ const Team = () => {
         backgroundColor: 'red',
       }
     ]
+  };
+
+  const barOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: false,
+        text: 'Finish Positions by Season',
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Y-Axis Label'
+        },
+        reverse: true
+      }
+    }
   };
 
   
