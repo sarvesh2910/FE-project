@@ -1,6 +1,7 @@
 'use client'
 import { React, useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
+import Image from 'next/image'
 import styles from './styles.module.css'
 import {
   Chart as ChartJS,
@@ -307,6 +308,7 @@ const Team = () => {
 
   const barOptions = {
     responsive: true,
+    indexAxis: 'y',
     plugins: {
       legend: {
         position: 'bottom',
@@ -316,6 +318,11 @@ const Team = () => {
         text: 'Best Position Per Season',
         position: 'bottom',
       },
+    },
+    scales: {
+      x: {
+        reverse: true,
+      }
     },
   };
 
@@ -356,13 +363,13 @@ const Team = () => {
       </div>
       <div className={styles.stats}>
         <div className='row'>
-          <div className='col-md-3 col-sm-6'>
+          <div className='col-lg-3'>
             <div className={`${styles.stat} card`}>
               <h3>Total Points</h3>
               <p className={styles.totalPoints}>{total}</p>
             </div>
           </div>
-          <div className='col-md-3 col-sm-6'>
+          <div className='col-lg-3'>
             <div className={`${styles.stat} card`}>
               <h3>Races</h3>
               <ul className='races'>
@@ -374,7 +381,7 @@ const Team = () => {
               </ul>
             </div>
           </div>
-          <div className='col-md-3 col-sm-6'>
+          <div className='col-lg-3 col-md-6'>
             <div className={`${styles.stat} card`}>
               <h3>Top Race Score</h3>
               <p>Race: {topScoringRace.raceName}</p>
@@ -384,7 +391,7 @@ const Team = () => {
               <p>Status: {topScoringRace.status}</p>
             </div>
           </div>
-          <div className='col-md-3 col-sm-6'>
+          <div className='col-lg-3 col-md-6'>
             <div className={`${styles.stat} card`}>
               <h3>Lowest Race Score</h3>
               <p>Race: {bottomScoringRace.raceName}</p>
@@ -398,16 +405,16 @@ const Team = () => {
       </div>
       <div className={styles.previousData}>
         <div className='row'>
-          <div className='col-sm-6'>
+          <div className='col-lg-6'>
             <div className={`${styles.previousYearsChampionship} card`}>
-              <h3>Previous Year Points</h3>
+              <h3>Previous Total Points</h3>
               <Line options={lineOptions} data={lineData} />
             </div>
           </div>
-          <div className='col-sm-6'>
+          <div className='col-lg-6'>
             <div className={`${styles.previousMatchBestFinishPosition} card`}>
-              <h3>Previous Year Best Position</h3>
-              <Bar options={barOptions} data={barData} />
+              <h3>Previous Best Finish Position</h3>
+              <Bar options={barOptions} data={barData} className='positionBar'/>
             </div>
           </div>
         </div>
