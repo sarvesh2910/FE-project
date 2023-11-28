@@ -3,12 +3,13 @@ import { React, useState, useEffect } from 'react';
 import GoogleMapReact from 'google-map-react';
 
 const LastRace = () => {
-
+    // Initialize state settings
     const [circuit, setCircuit] = useState({circuitName: '', url: ''});
     const [circuitCoordinates, setCircuitCoordinates] = useState({lat: '', lon: ''});
     const [pageProps, setPageProps] = useState({desc: ''});
     const circuitUrl = `https://ergast.com/api/f1/current.json`;
 
+    // Set default values for Google Maps
     const defaultProps = {
         center: {
           lat: 45.512778,
@@ -17,6 +18,7 @@ const LastRace = () => {
         zoom: 14
       };
 
+    // Fetch description data from Wikipedia asynchronously
     const getWikiData = async function fetchWikiDataFromURL(endpoint) {
         console.log(endpoint);
         try {
@@ -25,7 +27,6 @@ const LastRace = () => {
             // Now turn data into a json readable format
             const data = await response.json();
 
-            console.log(data['query']['pages'][Object.keys(data['query']['pages'])[0]]['pageprops']['wikibase-shortdesc']);
             setPageProps(
                 prevState => ({
                 ...prevState,
@@ -39,9 +40,8 @@ const LastRace = () => {
         } 
     }
     
-    // Fetch data from API asyncronously
+    // Fetch circuit data from Ergast API asyncronously
     const getCircuitData = async function fetchCircuitDataFromURL(endpoint) {
-        console.log(endpoint);
         try {
             const response = await fetch(endpoint);
 
@@ -51,8 +51,8 @@ const LastRace = () => {
 
             const circuit = races[races.length - 1]['Circuit'];
 
+            // Set state values from result
             setCircuit(circuit);
-
             setCircuitCoordinates(prevState => ({
                 ...prevState,
                 lat: parseFloat(circuit['Location']['lat']),
@@ -60,14 +60,16 @@ const LastRace = () => {
             }));
 
             const wikiUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=pageprops&titles=${circuit['circuitName']}&origin=*&format=json`
+            
+            // Now call on wiki fetch function once we have our URL built
             getWikiData(wikiUrl);
-
         } catch (error) {
             // Error from API fetch
             console.error('Request failed', error);
         }
     };
 
+    // Render circuit location marker on the embedded Google Map
     const renderMarkers = (map, maps) => {
         let marker = new maps.Marker({
         position: { lat: circuitCoordinates.lat, lng: circuitCoordinates.lon },
