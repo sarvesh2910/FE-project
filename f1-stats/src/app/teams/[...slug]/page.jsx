@@ -293,8 +293,8 @@ const Team = () => {
       {
         label: lastSeason,
         data: lastYearTeamResults,
-        borderColor: 'blue',
-        backgroundColor: 'blue',
+        borderColor: 'black',
+        backgroundColor: 'black',
       },
       {
         label: season,
@@ -327,8 +327,8 @@ const Team = () => {
       {
         label: 'Best Position',
         data: [previousYearBestPosition, topScoringRace.position],
-        borderColor: 'blue',
-        backgroundColor: 'blue',
+        borderColor: 'red',
+        backgroundColor: 'red',
       }
     ]
   };
