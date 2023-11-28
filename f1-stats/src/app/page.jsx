@@ -15,7 +15,7 @@ const Home = () => {
           lat: 10.99835602,
           lng: 77.01502627
         },
-        zoom: 12
+        zoom: 14
       };
 
     const getCoordinateData = async function fetchCoordinateDataFromURL(endpoint) {
@@ -76,8 +76,7 @@ const Home = () => {
                         <p>Lon: {circuitCoordinates.lon}</p>
                     </div>
                     <div className="col-md-4">
-                        <h2>Map</h2>
-                        <div style={{ height: '100vh', width: '100%' }}>
+                        <div style={{ height: '30vh', width: '100%' }}>
                             <GoogleMapReact
                                 bootstrapURLKeys={{ key: "AIzaSyCPxaLwQ3MLzMdWYD4yK0xgGbh5xBFhkJw" }}
                                 defaultCenter={defaultProps.center}
