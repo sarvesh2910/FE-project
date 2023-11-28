@@ -1,12 +1,22 @@
 'use client'
 import { React, useState, useEffect } from 'react';
+import Image from 'next/image'
+import GoogleMapReact from 'google-map-react';
+
+const AnyReactComponent = () => <div className='marker'><img src={'/checkered-flag.png'} /></div>;
 
 const Home = () => {
-
     const [circuit, setCircuit] = useState({circuitName: '', url: ''});
     const [circuitCoordinates, setCircuitCoordinates] = useState({lat: '', lon: ''});
     const circuitUrl = `https://ergast.com/api/f1/current.json`;
-    const wikipediaUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&titles=${circuit.circuitName}`;
+
+    const defaultProps = {
+        center: {
+          lat: 10.99835602,
+          lng: 77.01502627
+        },
+        zoom: 12
+      };
 
     const getCoordinateData = async function fetchCoordinateDataFromURL(endpoint) {
         console.log(endpoint);
@@ -62,12 +72,28 @@ const Home = () => {
                         <h2>{circuit.circuitName}</h2>
                         <a href={circuit.url} target='_blank'>View on Wikipedia</a>
                         <p>Content about race</p>
-                        <p>{wikipediaUrl}</p>
                         <p>Lat: {circuitCoordinates.lat}</p>
                         <p>Lon: {circuitCoordinates.lon}</p>
                     </div>
                     <div className="col-md-4">
                         <h2>Map</h2>
+                        <div style={{ height: '100vh', width: '100%' }}>
+                            <GoogleMapReact
+                                bootstrapURLKeys={{ key: "AIzaSyCPxaLwQ3MLzMdWYD4yK0xgGbh5xBFhkJw" }}
+                                defaultCenter={defaultProps.center}
+                                defaultZoom={defaultProps.zoom}
+                                center={[
+                                    circuitCoordinates.lat,
+                                    circuitCoordinates.lon
+                                ]}
+                            >
+                                <AnyReactComponent
+                                lat={circuitCoordinates.lat}
+                                lng={circuitCoordinates.lon}
+                                text="My Marker"
+                                />
+                            </GoogleMapReact>
+                        </div>
                     </div>
                     <div className="col-md-4">
                         <h2>Weather</h2>
