@@ -22,7 +22,7 @@ body {
 }
 
 .content {
-    overflow-x: hidden;
+    overflow-y: hidden;
     width: 100%;
     max-width: var(--content-max-width);
     padding: var(--content-padding-sides);
