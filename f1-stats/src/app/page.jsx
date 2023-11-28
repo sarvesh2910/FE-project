@@ -3,11 +3,12 @@ import { React, useState, useEffect } from 'react';
 import Image from 'next/image'
 import GoogleMapReact from 'google-map-react';
 
-const AnyReactComponent = () => <div className='marker'><img src={'/checkered-flag.png'} /></div>;
+const Marker = () => <div className='marker'><img src={'/checkered-flag.png'} /></div>;
 
 const Home = () => {
     const [circuit, setCircuit] = useState({circuitName: '', url: ''});
     const [circuitCoordinates, setCircuitCoordinates] = useState({lat: '', lon: ''});
+    const [pageProps, setPageProps] = useState({desc: ''});
     const circuitUrl = `https://ergast.com/api/f1/current.json`;
 
     const defaultProps = {
@@ -27,7 +28,14 @@ const Home = () => {
             const data = await response.json();
             console.log(data);
             console.log(data['query']['pages'][Object.keys(data['query']['pages'])[0]]['coordinates'][0]);
-            setCircuitCoordinates(data['query']['pages'][Object.keys(data['query']['pages'])[0]]['coordinates'][0])
+            setCircuitCoordinates(data['query']['pages'][Object.keys(data['query']['pages'])[0]]['coordinates'][0]);
+            console.log(data['query']['pages'][Object.keys(data['query']['pages'])[0]]['pageprops']['wikibase-shortdesc']);
+            setPageProps(
+                prevState => ({
+                ...prevState,
+                desc: data['query']['pages'][Object.keys(data['query']['pages'])[0]]['pageprops']['wikibase-shortdesc'],
+                })
+            );
 
         } catch (error) {
             // Error from API fetch
@@ -49,13 +57,22 @@ const Home = () => {
             setCircuit(races[races.length - 1]['Circuit']);
             const circuitName = races[races.length - 1]['Circuit']['circuitName'];
 
-            const wikiUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=coordinates&titles=${circuitName}&origin=*&format=json`
+            const wikiUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=coordinates|pageprops&titles=${circuitName}&origin=*&format=json`
             getCoordinateData(wikiUrl);
 
         } catch (error) {
             // Error from API fetch
             console.error('Request failed', error);
         }
+    };
+
+    const renderMarkers = (map, maps) => {
+        let marker = new maps.Marker({
+        position: { lat: circuitCoordinates.lat, lng: circuitCoordinates.lon },
+        map,
+        title: 'Hello World!'
+        });
+        return marker;
     };
 
     useEffect(() => {
@@ -70,10 +87,8 @@ const Home = () => {
                 <div className="row">
                     <div className="col-sm-4">
                         <h2>{circuit.circuitName}</h2>
+                        <p>{pageProps.desc}</p>
                         <a href={circuit.url} target='_blank'>View on Wikipedia</a>
-                        <p>Content about race</p>
-                        <p>Lat: {circuitCoordinates.lat}</p>
-                        <p>Lon: {circuitCoordinates.lon}</p>
                     </div>
                     <div className="col-md-4">
                         <div style={{ height: '30vh', width: '100%' }}>
@@ -85,12 +100,10 @@ const Home = () => {
                                     circuitCoordinates.lat,
                                     circuitCoordinates.lon
                                 ]}
+                                yesIWantToUseGoogleMapApiInternals
+                                onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
                             >
-                                <AnyReactComponent
-                                lat={circuitCoordinates.lat}
-                                lng={circuitCoordinates.lon}
-                                text="My Marker"
-                                />
+                                
                             </GoogleMapReact>
                         </div>
                     </div>
