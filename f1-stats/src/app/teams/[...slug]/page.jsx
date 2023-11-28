@@ -44,13 +44,12 @@ const Team = () => {
   const [total, setTotal] = useState();
   const [topScoringRace, setTopScoringRace] = useState({raceName: '', driver: '', score: '', position: '', status: ''});
   const [bottomScoringRace, setBottomScoringRace] = useState({raceName: '', driver: '', score: '', position: '', status: ''});
-  const [driversForChart, setDriversForChart] = useState([]);
+  const [previousYearBestPosition, setPreviousYearBestPosition] = useState();
 
   // Initialize URLs for API requests
   const teamUrl = `http://ergast.com/api/f1/${season}/constructors/${teamId}.json`;
-  const teamDriversUrl = `https://ergast.com/api/f1/${season}/constructors/${teamId}/drivers.json`
-  const teamResultsUrl = `http://ergast.com/api/f1/${season}/constructors/${teamId}/results.json`
-  const racesUrl = `http://ergast.com/api/f1/${season}.json`;
+  const teamDriversUrl = `https://ergast.com/api/f1/${season}/constructors/${teamId}/drivers.json`;
+  const teamResultsUrl = `http://ergast.com/api/f1/${season}/constructors/${teamId}/results.json`;
 
   // Get last season year // need to handle when last year doesn't have data
   const lastSeason = season-1;
@@ -95,25 +94,7 @@ const Team = () => {
         const data = await response.json();
 
         setTeamDrivers(data['MRData']['DriverTable']['Drivers']);
-        console.log(driversForChart);
-        console.log(teamDrivers)
-        let updateDrivers = [...driversForChart];
-
-        for (let i = 0; i < data['MRData']['DriverTable']['Drivers'].length; i++) {
-          updateDrivers.push(
-              {
-                label: data['MRData']['DriverTable']['Drivers'][i]['familyName'],
-                data: [],
-                borderColor: 'yellow',
-                backgroundColor: 'yellow', 
-              }
-          );
-
-            setDriversForChart(updateDrivers);
-        }
-
-        setDriversForChart(updateDrivers);
-
+        
 
       } catch (error) {
         // Error from API fetch
@@ -245,7 +226,8 @@ const Team = () => {
         const lastYearRaces = data['MRData']['RaceTable']['Races'];
 
         let resultArray = [];
-        let highestPosition = 0;
+        let highestPositionPerRace = 100;
+        let highestPositionTotal = 100;
 
         for (let i = 0; i < lastYearRaces.length; i++) {
           let j = 0;
@@ -258,14 +240,20 @@ const Team = () => {
 
           resultArray.push(j + thisRacePoints);
 
-          highestPosition = lastYearRaces[i]['Results'].reduce(function(prev, current) {
-            if (+current.position > +prev.position) {
-                return current.position;
-            } else {
-                return prev.position;
-            }
-          });
+          const lastYearResults = lastYearRaces[i]['Results'].map(result => result.position);
+          console.log(lastYearResults);
+
+          highestPositionPerRace = Math.min(parseInt(lastYearResults));
+
+          console.log(`is ${highestPositionPerRace} smaller or equal to ${highestPositionTotal}?`);
+          if (parseInt(highestPositionPerRace) <= parseInt(highestPositionTotal)) {
+            console.log('The value is smaller this time');
+            highestPositionTotal = parseInt(highestPositionPerRace);
+            console.log(`highestPositionTotal = ${highestPositionTotal}`);
+          }
         };
+        
+        setPreviousYearBestPosition(highestPositionTotal);
 
         setLastYearTeamResults(resultArray);
 
@@ -278,8 +266,8 @@ const Team = () => {
 
     getTeam();
     getTeamDrivers();
-    getResults();
     getLastYearResults();
+    getResults();
   }, []);
 
   const lineOptions = {
@@ -316,7 +304,7 @@ const Team = () => {
     ]
   };
 
-  const lastLineOptions = {
+  const barOptions = {
     responsive: true,
     plugins: {
       legend: {
@@ -324,24 +312,25 @@ const Team = () => {
       },
       title: {
         display: false,
-        text: 'Position Per Grand Prix',
+        text: 'Points Earned Per Grand Prix',
       },
     },
-    scales: {
-      y: {
-        reverse: true
+  };
+
+  const barLabels = [lastSeason, season]
+
+  const barData = {
+    labels: barLabels,
+    datasets: [
+      {
+        label: 'Best Position',
+        data: [previousYearBestPosition, topScoringRace.position],
+        borderColor: 'blue',
+        backgroundColor: 'blue',
       }
-    }
+    ]
   };
-
-  const lastLineLabels = teamRaces.map(race => 'Round ' + race.round);
   
-
-  //need to fix labels
-  const lastLineData = {
-    labels: lastLineLabels,
-    datasets: driversForChart
-  };
 
   return (
     <div className={`${styles.team} container`}>
@@ -415,8 +404,9 @@ const Team = () => {
           </div>
           <div className='col-sm-6'>
             <div className={`${styles.previousMatchBestFinishPosition} card`}>
-              <p>{season} Driver Positions</p>
-              <Line options={lastLineOptions} data={lastLineData} />
+              <p>Previous Year Best Position</p>
+              <Bar options={barOptions} data={barData} />
+              <p>{previousYearBestPosition}</p>
             </div>
           </div>
         </div>
