@@ -44,7 +44,8 @@ const Team = () => {
   const [total, setTotal] = useState();
   const [topScoringRace, setTopScoringRace] = useState({raceName: '', driver: '', score: '', position: '', status: ''});
   const [bottomScoringRace, setBottomScoringRace] = useState({raceName: '', driver: '', score: '', position: '', status: ''});
-  const [topScoreLastSeason, setTopScoreLastSeason] = useState();
+  const [firstDriver, setFirstDriver] = useState();
+  const [secondDriver, setSecondDriver] = useState();
 
   // Initialize URLs for API requests
   const teamUrl = `http://ergast.com/api/f1/${season}/constructors/${teamId}.json`;
@@ -97,6 +98,10 @@ const Team = () => {
         setTeamDrivers(data['MRData']['DriverTable']['Drivers']);
         console.log(data['MRData']['DriverTable']['Drivers']);
         console.log(teamDrivers);
+
+        
+        setFirstDriver(data['MRData']['DriverTable']['Drivers'][0].familyName);
+        setSecondDriver(data['MRData']['DriverTable']['Drivers'][1].familyName);
 
       } catch (error) {
         // Error from API fetch
@@ -265,8 +270,6 @@ const Team = () => {
 
         setLastYearTeamResults(resultArray);
 
-        setTopScoreLastSeason(highestPosition);
-
       } catch (error) {
         // Error from API fetch
         console.error('Request failed', error);
@@ -314,28 +317,7 @@ const Team = () => {
     ]
   };
 
-  const barLabels = ['Season Best Positions']
-
-  //need to fix labels
-  const barData = {
-    labels: barLabels,
-    datasets: [
-      {
-        label: lastSeason,
-        data: topScoreLastSeason,
-        borderColor: 'blue',
-        backgroundColor: 'blue',
-      },
-      {
-        label: season,
-        data: topScoringRace.position,
-        borderColor: 'red',
-        backgroundColor: 'red',
-      }
-    ]
-  };
-
-  const barOptions = {
+  const lastLineOptions = {
     responsive: true,
     plugins: {
       legend: {
@@ -343,19 +325,41 @@ const Team = () => {
       },
       title: {
         display: false,
-        text: 'Finish Positions by Season',
+        text: 'Position Per Grand Prix',
       },
     },
     scales: {
       y: {
-        beginAtZero: true,
-        title: {
-          display: true,
-          text: 'Y-Axis Label'
-        },
         reverse: true
       }
     }
+  };
+
+  console.log(teamRaces);
+  const lastLineLabels = teamRaces.map(race => 'Round ' + race.round);
+  const lineResultsFirstDriver = teamRaces.map(race => race.Results[0].position);
+  const lineResultsSecondDriver = teamRaces.map(race => race.Results[1].position);
+
+  
+
+
+  //need to fix labels
+  const lastLineData = {
+    labels: lastLineLabels,
+    datasets: [
+      {
+        label: firstDriver,
+        data: lineResultsFirstDriver,
+        borderColor: 'green',
+        backgroundColor: 'green',
+      },
+      {
+        label: secondDriver,
+        data: lineResultsSecondDriver,
+        borderColor: 'orange',
+        backgroundColor: 'orange',
+      }
+    ]
   };
 
   
@@ -432,8 +436,8 @@ const Team = () => {
           </div>
           <div className='col-sm-6'>
             <div className={`${styles.previousMatchBestFinishPosition} card`}>
-              <p>Previous Match Best Finish Position</p>
-              <Bar options={barOptions} data={barData} />
+              <p>{season} Driver Positions</p>
+              <Line options={lastLineOptions} data={lastLineData} />
             </div>
           </div>
         </div>
