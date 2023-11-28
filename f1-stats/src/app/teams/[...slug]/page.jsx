@@ -144,7 +144,10 @@ const Team = () => {
               j = parseInt(resultArray[resultArray.length-1]);
             }
 
-            const thisRacePoints = parseInt(races[i]['Results'][0]['points']) + parseInt(races[i]['Results'][1]['points']);
+            const firstResult = parseInt(races[i]['Results'][0]['points']);
+            const secondResult = parseInt(races[i]['Results'][1]['points']);
+            const thisRacePoints = firstResult + secondResult;
+
             resultArray.push(j + thisRacePoints);
             totalPoints += thisRacePoints;
 
@@ -243,9 +246,12 @@ const Team = () => {
             j = parseInt(resultArray[resultArray.length-1]);
           }
 
-          const thisRacePoints = parseInt(lastYearRaces[i]['Results'][0]['points']) + parseInt(lastYearRaces[i]['Results'][1]['points']);
+          const firstResult = parseInt(lastYearRaces[i]['Results'][0]['points']);
+          const secondResult = parseInt(lastYearRaces[i]['Results'][1]['points']);
 
-          console.log(`${j} + ${parseInt(lastYearRaces[i]['Results'][0]['points'])} + ${parseInt(lastYearRaces[i]['Results'][1]['points'])}`);
+          const thisRacePoints = firstResult + secondResult;
+
+          console.log(`${j} + ${firstResult} + ${secondResult}`);
           resultArray.push(j + thisRacePoints);
 
           highestPosition = lastYearRaces[i]['Results'].reduce(function(prev, current) {
@@ -287,7 +293,7 @@ const Team = () => {
     },
   };
 
-  const lineLabels = teamRaces.map(race => race.raceName.replace(' Grand Prix', ''))
+  const lineLabels = teamRaces.map(race => 'Round ' + race.round);
 
   //need to fix labels
   const lineData = {
@@ -396,7 +402,7 @@ const Team = () => {
           </div>
           <div className='col-md-3 col-sm-6'>
             <div className={`${styles.stat} card`}>
-              <h3>Top Driver Score</h3>
+              <h3>Top Race Score</h3>
               <p>Race: {topScoringRace.raceName}</p>
               <p>Driver: {topScoringRace.driver}</p>
               <p>Score: {topScoringRace.score}</p>
@@ -406,7 +412,7 @@ const Team = () => {
           </div>
           <div className='col-md-3 col-sm-6'>
             <div className={`${styles.stat} card`}>
-              <h3>Lowest Driver Score</h3>
+              <h3>Lowest Race Score</h3>
               <p>Race: {bottomScoringRace.raceName}</p>
               <p>Driver: {bottomScoringRace.driver}</p>
               <p>Score: {bottomScoringRace.score}</p>
