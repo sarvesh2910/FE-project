@@ -26,7 +26,6 @@ const Home = () => {
 
             // Now turn data into a json readable format
             const data = await response.json();
-            console.log(data);
 
             console.log(data['query']['pages'][Object.keys(data['query']['pages'])[0]]['pageprops']['wikibase-shortdesc']);
             setPageProps(
@@ -51,13 +50,10 @@ const Home = () => {
             // Now turn data into a json readable format
             const data = await response.json();
             const races = data['MRData']['RaceTable']['Races'];
-            console.log(races);
-            console.log(races[races.length - 1]['Circuit']);
 
             const circuit = races[races.length - 1]['Circuit'];
 
             setCircuit(circuit);
-            console.log(`${circuit['Location']['lat']}, ${circuit['Location']['long']}`);
 
             setCircuitCoordinates(prevState => ({
                 ...prevState,
@@ -65,7 +61,7 @@ const Home = () => {
                 lon: parseFloat(circuit['Location']['long'])
             }));
 
-            const wikiUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=coordinates|pageprops&titles=${circuit['circuitName']}&origin=*&format=json`
+            const wikiUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=pageprops&titles=${circuit['circuitName']}&origin=*&format=json`
             getWikiData(wikiUrl);
 
         } catch (error) {
