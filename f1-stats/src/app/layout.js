@@ -4,7 +4,7 @@ import "./globals.css";
 
 export default function RootLayout({children}) {
     return (
-        <html lang="en">
+        <html lang="en" data-bs-theme="dark">
             <body>
                 <Navbar/>
                 <div className={'content'}>

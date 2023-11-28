@@ -4,7 +4,7 @@ import style from './nav.module.css';
 
 const Navbar = () => {
     return (
-            <div className={style.container}>
+            <div className={`${style.container} bg-dark`}>
                 <div className={style.logo}>
                     <Link href={'/'}>F1 Logo</Link>
                 </div>

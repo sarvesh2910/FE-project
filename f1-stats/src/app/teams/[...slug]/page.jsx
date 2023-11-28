@@ -274,16 +274,17 @@ const Team = () => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        position: 'bottom',
       },
       title: {
-        display: false,
-        text: 'Points Earned Per Grand Prix',
+        display: true,
+        text: 'Points Earned Per Round',
+        position: 'bottom',
       },
     },
   };
 
-  const lineLabels = teamRaces.map(race => 'Round ' + race.round);
+  const lineLabels = teamRaces.map(race => race.round);
 
   //need to fix labels
   const lineData = {
@@ -308,11 +309,12 @@ const Team = () => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        position: 'bottom',
       },
       title: {
-        display: false,
-        text: 'Points Earned Per Grand Prix',
+        display: true,
+        text: 'Best Position Per Season',
+        position: 'bottom',
       },
     },
   };
@@ -398,15 +400,14 @@ const Team = () => {
         <div className='row'>
           <div className='col-sm-6'>
             <div className={`${styles.previousYearsChampionship} card`}>
-              <p>Previous Year Points</p>
+              <h3>Previous Year Points</h3>
               <Line options={lineOptions} data={lineData} />
             </div>
           </div>
           <div className='col-sm-6'>
             <div className={`${styles.previousMatchBestFinishPosition} card`}>
-              <p>Previous Year Best Position</p>
+              <h3>Previous Year Best Position</h3>
               <Bar options={barOptions} data={barData} />
-              <p>{previousYearBestPosition}</p>
             </div>
           </div>
         </div>
