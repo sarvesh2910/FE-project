@@ -19,7 +19,7 @@ const Home = () => {
         zoom: 14
       };
 
-    const getCoordinateData = async function fetchCoordinateDataFromURL(endpoint) {
+    const getWikiData = async function fetchWikiDataFromURL(endpoint) {
         console.log(endpoint);
         try {
             const response = await fetch(endpoint);
@@ -27,8 +27,7 @@ const Home = () => {
             // Now turn data into a json readable format
             const data = await response.json();
             console.log(data);
-            console.log(data['query']['pages'][Object.keys(data['query']['pages'])[0]]['coordinates'][0]);
-            setCircuitCoordinates(data['query']['pages'][Object.keys(data['query']['pages'])[0]]['coordinates'][0]);
+
             console.log(data['query']['pages'][Object.keys(data['query']['pages'])[0]]['pageprops']['wikibase-shortdesc']);
             setPageProps(
                 prevState => ({
@@ -54,11 +53,20 @@ const Home = () => {
             const races = data['MRData']['RaceTable']['Races'];
             console.log(races);
             console.log(races[races.length - 1]['Circuit']);
-            setCircuit(races[races.length - 1]['Circuit']);
-            const circuitName = races[races.length - 1]['Circuit']['circuitName'];
 
-            const wikiUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=coordinates|pageprops&titles=${circuitName}&origin=*&format=json`
-            getCoordinateData(wikiUrl);
+            const circuit = races[races.length - 1]['Circuit'];
+
+            setCircuit(circuit);
+            console.log(`${circuit['Location']['lat']}, ${circuit['Location']['long']}`);
+
+            setCircuitCoordinates(prevState => ({
+                ...prevState,
+                lat: parseFloat(circuit['Location']['lat']),
+                lon: parseFloat(circuit['Location']['long'])
+            }));
+
+            const wikiUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=coordinates|pageprops&titles=${circuit['circuitName']}&origin=*&format=json`
+            getWikiData(wikiUrl);
 
         } catch (error) {
             // Error from API fetch
@@ -70,7 +78,7 @@ const Home = () => {
         let marker = new maps.Marker({
         position: { lat: circuitCoordinates.lat, lng: circuitCoordinates.lon },
         map,
-        title: 'Hello World!'
+        title: 'Circuit Location'
         });
         return marker;
     };
