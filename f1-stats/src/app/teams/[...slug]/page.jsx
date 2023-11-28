@@ -44,8 +44,7 @@ const Team = () => {
   const [total, setTotal] = useState();
   const [topScoringRace, setTopScoringRace] = useState({raceName: '', driver: '', score: '', position: '', status: ''});
   const [bottomScoringRace, setBottomScoringRace] = useState({raceName: '', driver: '', score: '', position: '', status: ''});
-  const [firstDriver, setFirstDriver] = useState();
-  const [secondDriver, setSecondDriver] = useState();
+  const [driversForChart, setDriversForChart] = useState([]);
 
   // Initialize URLs for API requests
   const teamUrl = `http://ergast.com/api/f1/${season}/constructors/${teamId}.json`;
@@ -96,12 +95,25 @@ const Team = () => {
         const data = await response.json();
 
         setTeamDrivers(data['MRData']['DriverTable']['Drivers']);
-        console.log(data['MRData']['DriverTable']['Drivers']);
-        console.log(teamDrivers);
+        console.log(driversForChart);
+        console.log(teamDrivers)
+        let updateDrivers = [...driversForChart];
 
-        
-        setFirstDriver(data['MRData']['DriverTable']['Drivers'][0].familyName);
-        setSecondDriver(data['MRData']['DriverTable']['Drivers'][1].familyName);
+        for (let i = 0; i < data['MRData']['DriverTable']['Drivers'].length; i++) {
+          updateDrivers.push(
+              {
+                label: data['MRData']['DriverTable']['Drivers'][i]['familyName'],
+                data: [],
+                borderColor: 'yellow',
+                backgroundColor: 'yellow', 
+              }
+          );
+
+            setDriversForChart(updateDrivers);
+        }
+
+        setDriversForChart(updateDrivers);
+
 
       } catch (error) {
         // Error from API fetch
@@ -116,7 +128,6 @@ const Team = () => {
 
         // Now turn data into a json readable format
         const data = await response.json();
-        console.log(data);
 
         // Get races from data
         const races = data['MRData']['RaceTable']['Races'];
@@ -148,27 +159,22 @@ const Team = () => {
             if (resultArray.length > 0) {
               j = parseInt(resultArray[resultArray.length-1]);
             }
-
-            const firstResult = parseInt(races[i]['Results'][0]['points']);
-            const secondResult = parseInt(races[i]['Results'][1]['points']);
-            const thisRacePoints = firstResult + secondResult;
+ 
+            const thisRacePointsArray = races[i]['Results'].map(result => result['points']);
+            let thisRacePoints = thisRacePointsArray.reduce((partialSum, a) => parseInt(partialSum) + parseInt(a), 0);
 
             resultArray.push(j + thisRacePoints);
             totalPoints += thisRacePoints;
 
             const highestResult = races[i]['Results'].reduce(function(prev, current) {
               if (+current.points > +prev.points) {
-                  console.log(`current = ${current.points}`);
                   return current;
               } else {
-                console.log(`prev = ${prev.points}`);
                   return prev;
               }
             });
 
             if (parseInt(highestResult.points) > parseInt(highestScore)) {
-                console.log(races[i]);
-                console.log(`${races[i].raceName} is highest scoring at ${highestResult.points}`);
                 highestScore = highestResult.points;
                 highestScoreRace = races[i].raceName;
                 highestScoreDriver = highestResult.Driver.familyName;
@@ -221,11 +227,7 @@ const Team = () => {
         }));
 
         // Now get individual results for races
-        //console.log(races);
-        //console.log(results);
-        console.log(resultArray);
         setTeamResults(resultArray);
-        console.log(teamResults);
         
 
       } catch (error) {
@@ -251,12 +253,9 @@ const Team = () => {
             j = parseInt(resultArray[resultArray.length-1]);
           }
 
-          const firstResult = parseInt(lastYearRaces[i]['Results'][0]['points']);
-          const secondResult = parseInt(lastYearRaces[i]['Results'][1]['points']);
+          const thisRacePointsArray = lastYearRaces[i]['Results'].map(result => result['points']);
+          let thisRacePoints = thisRacePointsArray.reduce((partialSum, a) => parseInt(partialSum) + parseInt(a), 0);
 
-          const thisRacePoints = firstResult + secondResult;
-
-          console.log(`${j} + ${firstResult} + ${secondResult}`);
           resultArray.push(j + thisRacePoints);
 
           highestPosition = lastYearRaces[i]['Results'].reduce(function(prev, current) {
@@ -335,34 +334,14 @@ const Team = () => {
     }
   };
 
-  console.log(teamRaces);
   const lastLineLabels = teamRaces.map(race => 'Round ' + race.round);
-  const lineResultsFirstDriver = teamRaces.map(race => race.Results[0].position);
-  const lineResultsSecondDriver = teamRaces.map(race => race.Results[1].position);
-
   
-
 
   //need to fix labels
   const lastLineData = {
     labels: lastLineLabels,
-    datasets: [
-      {
-        label: firstDriver,
-        data: lineResultsFirstDriver,
-        borderColor: 'green',
-        backgroundColor: 'green',
-      },
-      {
-        label: secondDriver,
-        data: lineResultsSecondDriver,
-        borderColor: 'orange',
-        backgroundColor: 'orange',
-      }
-    ]
+    datasets: driversForChart
   };
-
-  
 
   return (
     <div className={`${styles.team} container`}>
@@ -430,7 +409,7 @@ const Team = () => {
         <div className='row'>
           <div className='col-sm-6'>
             <div className={`${styles.previousYearsChampionship} card`}>
-              <p>Previous Year Championship Points</p>
+              <p>Previous Year Points</p>
               <Line options={lineOptions} data={lineData} />
             </div>
           </div>
