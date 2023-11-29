@@ -40,9 +40,10 @@ a {
     color: white;
 }
 
-/*.positionBar {
+
+.positionBar {
     background-image:url('/finishline.jpg');
-    background-position: right;
     background-repeat: repeat-y;
-    padding-right: 9px;
-}*/
+    padding-right: 20px;
+    background-position: top right;
+}
