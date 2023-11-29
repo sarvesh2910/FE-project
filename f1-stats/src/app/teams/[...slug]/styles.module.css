@@ -1,0 +1,51 @@
+
+/*.team {
+    
+}*/
+
+.nationality {
+    font-size: 15px;
+}
+
+.seasonTitle {
+    margin: 15px 0px;
+}
+
+.drivers {
+    margin: 15px 0px;
+}
+
+.drivers li {
+    list-style: inside;
+}
+
+.stats {
+    margin: 15px 0px;
+}
+
+.stat {
+    padding: 1em;
+}
+
+.stat p {
+    margin-bottom: 0rem;
+}
+
+.totalPoints {
+    font-size: 2em;
+}
+
+
+.previousData {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+.previousYearsChampionship {
+    padding: 1em;
+}
+
+.previousMatchBestFinishPosition {
+    padding: 1em;
+}
