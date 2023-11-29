@@ -1,6 +1,7 @@
 'use client'
 import { React, useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
+import Image from 'next/image'
 import styles from './styles.module.css'
 import {
   Chart as ChartJS,
@@ -27,6 +28,7 @@ ChartJS.register(
 );
 
 const Team = () => {
+  let [loading, setLoading] = useState(true);
 
   // Get the constructor/team ID from slug
   const teamId = useParams()['slug'][0];
@@ -57,218 +59,221 @@ const Team = () => {
 
   // Fetch team data from API asyncronously
   useEffect(() => {
-    const getTeam = async function fetchTeamDataFromURL() {
-      try {
-        const response = await fetch(teamUrl);
+    getAll().then(setLoading(false));
+  }, []);
 
-        // Now turn data into a json readable format
-        const data = await response.json();
-        const constructor = data['MRData']['ConstructorTable']['Constructors'][0];
+  const getAll = async function getAllData() {
+    getTeam();
+    getTeamDrivers();
+    getLastYearResults();
+    getResults();
+  }
 
-        if (constructor) {
-          setTeam(
-            prevState => ({
-              ...prevState,
-              constructorId: constructor.constructorId,
-              name: constructor.name,
-              url: constructor.url,
-              nationality: constructor.nationality
-          }));
-        } else {
-          console.log('No constructors/teams found');
-        }
-        
+  const getTeam = async function fetchTeamDataFromURL() {
+    try {
+      const response = await fetch(teamUrl);
 
-      } catch (error) {
-        // Error from API fetch
-        console.error('Request failed', error);
-      }
-    };
+      // Now turn data into a json readable format
+      const data = await response.json();
+      const constructor = data['MRData']['ConstructorTable']['Constructors'][0];
 
-    // Fetch team driver data from API asyncronously
-    const getTeamDrivers = async function fetchDriversDataFromURL() {
-      try {
-        const response = await fetch(teamDriversUrl);
-
-        // Now turn data into a json readable format
-        const data = await response.json();
-
-        setTeamDrivers(data['MRData']['DriverTable']['Drivers']);
-        
-
-      } catch (error) {
-        // Error from API fetch
-        console.error('Request failed', error);
-      }
-    };
-
-    // Fetch team results from API asyncronously
-    const getResults = async function fetchResultsDataFromURL() {
-      try {
-        const response = await fetch(teamResultsUrl);
-
-        // Now turn data into a json readable format
-        const data = await response.json();
-
-        // Get races from data
-        const races = data['MRData']['RaceTable']['Races'];
-        console.log(races);
-        setTeamRaces(races);
-
-        // Declare total points for constructor 
-        let totalPoints = 0;
-
-        // Now get highest & lowerst scoring races
-        let highestScore = 0;
-        let highestScoreRace = '';
-        let highestScoreDriver = '';
-        let highestScorePosition = '';
-        let highestScoreStatus = '';
-
-        let lowestScore = 100;
-        let lowestScoreRace = '';
-        let lowestScoreDriver = '';
-        let lowestScorePosition = '';
-        let lowestScoreStatus = '';
-
-        //Results
-        let resultArray = [];
-
-        for (let i = 0; i < races.length; i++) {
-
-            let j = 0;
-            if (resultArray.length > 0) {
-              j = parseInt(resultArray[resultArray.length-1]);
-            }
- 
-            const thisRacePointsArray = races[i]['Results'].map(result => result['points']);
-            let thisRacePoints = thisRacePointsArray.reduce((partialSum, a) => parseInt(partialSum) + parseInt(a), 0);
-
-            resultArray.push(j + thisRacePoints);
-            totalPoints += thisRacePoints;
-
-            const highestResult = races[i]['Results'].reduce(function(prev, current) {
-              if (+current.points > +prev.points) {
-                  return current;
-              } else {
-                  return prev;
-              }
-            });
-
-            if (parseInt(highestResult.points) > parseInt(highestScore)) {
-                highestScore = highestResult.points;
-                highestScoreRace = races[i].raceName;
-                highestScoreDriver = highestResult.Driver.familyName;
-                highestScorePosition = highestResult.position;
-                highestScoreStatus = highestResult.status;
-            }
-            
-
-            const lowestResult = races[i]['Results'].reduce(function(prev, current) {
-              if (+current.points < +prev.points) {
-                  return current;
-              } else {
-                  return prev;
-              }
-            });
-
-            if (parseInt(lowestResult.points) < parseInt(lowestScore)) {
-                lowestScore = lowestResult.points;
-                lowestScoreRace = races[i].raceName;
-                lowestScoreDriver = lowestResult.Driver.familyName;
-                lowestScorePosition = lowestResult.position;
-                lowestScoreStatus = lowestResult.status;
-            }
-
-        }
-
-        // Set total using accumulated points
-        setTotal(totalPoints);
-
-        // Set top scoring race stat
-        setTopScoringRace(
+      if (constructor) {
+        setTeam(
           prevState => ({
             ...prevState,
-            raceName: highestScoreRace, 
-            driver: highestScoreDriver, 
-            score: highestScore, 
-            position: highestScorePosition,
-            status: highestScoreStatus
+            constructorId: constructor.constructorId,
+            name: constructor.name,
+            url: constructor.url,
+            nationality: constructor.nationality
         }));
-
-        // Set bottom scoring race stat
-        setBottomScoringRace(
-            prevState => ({
-              ...prevState,
-              raceName: lowestScoreRace, 
-              driver: lowestScoreDriver, 
-              score: lowestScore, 
-              position: lowestScorePosition,
-              status: lowestScoreStatus
-        }));
-
-        // Now get individual results for races
-        setTeamResults(resultArray);
-        
-
-      } catch (error) {
-        // Error from API fetch
-        console.error('Request failed', error);
+      } else {
+        console.log('No constructors/teams found');
       }
-    };
+      
 
-    const getLastYearResults = async function fetchLastYearResultsDataFromURL() {
-      try {
-        const response = await fetch(teamResultsLastYearUrl);
+    } catch (error) {
+      // Error from API fetch
+      console.error('Request failed', error);
+    }
+  };
 
-        // Now turn data into a json readable format
-        const data = await response.json();
-        const lastYearRaces = data['MRData']['RaceTable']['Races'];
+  // Fetch team driver data from API asyncronously
+  const getTeamDrivers = async function fetchDriversDataFromURL() {
+    try {
+      const response = await fetch(teamDriversUrl);
 
-        let resultArray = [];
-        let highestPositionPerRace = 100;
-        let highestPositionTotal = 100;
+      // Now turn data into a json readable format
+      const data = await response.json();
 
-        for (let i = 0; i < lastYearRaces.length; i++) {
+      setTeamDrivers(data['MRData']['DriverTable']['Drivers']);
+      
+
+    } catch (error) {
+      // Error from API fetch
+      console.error('Request failed', error);
+    }
+  };
+
+  // Fetch team results from API asyncronously
+  const getResults = async function fetchResultsDataFromURL() {
+    try {
+      const response = await fetch(teamResultsUrl);
+
+      // Now turn data into a json readable format
+      const data = await response.json();
+
+      // Get races from data
+      const races = data['MRData']['RaceTable']['Races'];
+      console.log(races);
+      setTeamRaces(races);
+
+      // Declare total points for constructor 
+      let totalPoints = 0;
+
+      // Now get highest & lowerst scoring races
+      let highestScore = 0;
+      let highestScoreRace = '';
+      let highestScoreDriver = '';
+      let highestScorePosition = '';
+      let highestScoreStatus = '';
+
+      let lowestScore = 100;
+      let lowestScoreRace = '';
+      let lowestScoreDriver = '';
+      let lowestScorePosition = '';
+      let lowestScoreStatus = '';
+
+      //Results
+      let resultArray = [];
+
+      for (let i = 0; i < races.length; i++) {
+
           let j = 0;
           if (resultArray.length > 0) {
             j = parseInt(resultArray[resultArray.length-1]);
           }
 
-          const thisRacePointsArray = lastYearRaces[i]['Results'].map(result => result['points']);
+          const thisRacePointsArray = races[i]['Results'].map(result => result['points']);
           let thisRacePoints = thisRacePointsArray.reduce((partialSum, a) => parseInt(partialSum) + parseInt(a), 0);
 
           resultArray.push(j + thisRacePoints);
+          totalPoints += thisRacePoints;
 
-          const lastYearResults = lastYearRaces[i]['Results'].map(result => result.position);
-          console.log(lastYearResults);
+          const highestResult = races[i]['Results'].reduce(function(prev, current) {
+            if (+current.points > +prev.points) {
+                return current;
+            } else {
+                return prev;
+            }
+          });
 
-          highestPositionPerRace = Math.min(parseInt(lastYearResults));
-
-          console.log(`is ${highestPositionPerRace} smaller or equal to ${highestPositionTotal}?`);
-          if (parseInt(highestPositionPerRace) <= parseInt(highestPositionTotal)) {
-            console.log('The value is smaller this time');
-            highestPositionTotal = parseInt(highestPositionPerRace);
-            console.log(`highestPositionTotal = ${highestPositionTotal}`);
+          if (parseInt(highestResult.points) > parseInt(highestScore)) {
+              highestScore = highestResult.points;
+              highestScoreRace = races[i].raceName;
+              highestScoreDriver = highestResult.Driver.familyName;
+              highestScorePosition = highestResult.position;
+              highestScoreStatus = highestResult.status;
           }
-        };
-        
-        setPreviousYearBestPosition(highestPositionTotal);
+          
 
-        setLastYearTeamResults(resultArray);
+          const lowestResult = races[i]['Results'].reduce(function(prev, current) {
+            if (+current.points < +prev.points) {
+                return current;
+            } else {
+                return prev;
+            }
+          });
 
-      } catch (error) {
-        // Error from API fetch
-        console.error('Request failed', error);
+          if (parseInt(lowestResult.points) < parseInt(lowestScore)) {
+              lowestScore = lowestResult.points;
+              lowestScoreRace = races[i].raceName;
+              lowestScoreDriver = lowestResult.Driver.familyName;
+              lowestScorePosition = lowestResult.position;
+              lowestScoreStatus = lowestResult.status;
+          }
+
       }
-    };
 
+      // Set total using accumulated points
+      setTotal(totalPoints);
 
-    getTeam();
-    getTeamDrivers();
-    getLastYearResults();
-    getResults();
-  }, []);
+      // Set top scoring race stat
+      setTopScoringRace(
+        prevState => ({
+          ...prevState,
+          raceName: highestScoreRace, 
+          driver: highestScoreDriver, 
+          score: highestScore, 
+          position: highestScorePosition,
+          status: highestScoreStatus
+      }));
+
+      // Set bottom scoring race stat
+      setBottomScoringRace(
+          prevState => ({
+            ...prevState,
+            raceName: lowestScoreRace, 
+            driver: lowestScoreDriver, 
+            score: lowestScore, 
+            position: lowestScorePosition,
+            status: lowestScoreStatus
+      }));
+
+      // Now get individual results for races
+      setTeamResults(resultArray);
+      
+
+    } catch (error) {
+      // Error from API fetch
+      console.error('Request failed', error);
+    }
+  };
+
+  const getLastYearResults = async function fetchLastYearResultsDataFromURL() {
+    try {
+      const response = await fetch(teamResultsLastYearUrl);
+
+      // Now turn data into a json readable format
+      const data = await response.json();
+      const lastYearRaces = data['MRData']['RaceTable']['Races'];
+
+      let resultArray = [];
+      let highestPositionPerRace = 100;
+      let highestPositionTotal = 100;
+
+      for (let i = 0; i < lastYearRaces.length; i++) {
+        let j = 0;
+        if (resultArray.length > 0) {
+          j = parseInt(resultArray[resultArray.length-1]);
+        }
+
+        const thisRacePointsArray = lastYearRaces[i]['Results'].map(result => result['points']);
+        let thisRacePoints = thisRacePointsArray.reduce((partialSum, a) => parseInt(partialSum) + parseInt(a), 0);
+
+        resultArray.push(j + thisRacePoints);
+
+        const lastYearResults = lastYearRaces[i]['Results'].map(result => result.position);
+        console.log(lastYearResults);
+
+        highestPositionPerRace = Math.min(parseInt(lastYearResults));
+
+        console.log(`is ${highestPositionPerRace} smaller or equal to ${highestPositionTotal}?`);
+        if (parseInt(highestPositionPerRace) <= parseInt(highestPositionTotal)) {
+          console.log('The value is smaller this time');
+          highestPositionTotal = parseInt(highestPositionPerRace);
+          console.log(`highestPositionTotal = ${highestPositionTotal}`);
+        }
+      };
+      
+      setPreviousYearBestPosition(highestPositionTotal);
+
+      setLastYearTeamResults(resultArray);
+
+    } catch (error) {
+      // Error from API fetch
+      console.error('Request failed', error);
+    }
+  };
 
   const lineOptions = {
     responsive: true,
@@ -333,8 +338,8 @@ const Team = () => {
       {
         label: 'Best Position',
         data: [previousYearBestPosition, topScoringRace.position],
-        borderColor: 'red',
-        backgroundColor: 'red',
+        borderColor: 'linear-gradient(135deg, rgba(0,0,0,0) 0%, rgba(59,59,59,1) 60%, rgba(59,59,59,1) 100%)',
+        backgroundColor: 'linear-gradient(135deg, rgba(0,0,0,0) 0%, rgba(59,59,59,1) 60%, rgba(59,59,59,1) 100%)',
       }
     ]
   };
@@ -342,82 +347,78 @@ const Team = () => {
 
   return (
     <div className={`container`}>
-      <h1>{team.name}, <span className={styles.nationality}>{team.nationality}</span></h1>
-      <a href={team.url} target='_blank'>View on Wikipedia</a>
-      <div className={styles.seasonTitle}>
-        <h2>{season} Season</h2>
-      </div>
-      <div className={styles.drivers}>
-        <h2>Drivers</h2>
-        <ul>
-        {teamDrivers.map((teamDriver) => (
-          <li key={teamDriver.driverId}>
-            <a href={teamDriver.url} target='_blank'>{teamDriver.givenName} {teamDriver.familyName}</a>
-          </li>
-        ))}
-        </ul>
-      </div>
-      <div className='row'>
-        <h2>Stats</h2>
-      </div>
-      <div className={styles.stats}>
-        <div className='row'>
-          <div className='col-lg-3'>
-            <div className={`${styles.stat} card`}>
-              <h3>Total Points</h3>
-              <p className={styles.totalPoints}>{total}</p>
+      { loading && <p>Loading...</p> }
+      
+      { !loading && 
+        <>
+          <h1 className={styles.teamTitle}>{team.name}, <span className={styles.nationality}>{team.nationality}</span></h1>
+          <a href={team.url} target='_blank'>View on Wikipedia</a>
+          <hr></hr>
+
+          <div className={styles.seasonTitle}>
+            <em>{season} Season</em>
+          </div>
+          <div className={styles.drivers}>
+            <h2 className={styles.sectionTitle}>Drivers</h2>
+            <ul>
+            {teamDrivers.map((teamDriver) => (
+              <li key={teamDriver.driverId}>
+                <a href={teamDriver.url} target='_blank'>{teamDriver.givenName} {teamDriver.familyName}</a>
+              </li>
+            ))}
+            </ul>
+          </div>
+          <div className='row'>
+            <h2 className={styles.sectionTitle}>Stats</h2>
+          </div>
+          <div className={styles.stats}>
+            <div className='row'>
+              <div className='col-lg-4'>
+                <div className={`${styles.stat} card`}>
+                  <h3  className={styles.sectionTitleH3}>Total Points</h3>
+                  <p className={styles.totalPoints}>{total}</p>
+                </div>
+              </div>
+              <div className='col-lg-4 col-md-6'>
+                <div className={`${styles.stat} card`}>
+                  <h3 className={styles.sectionTitleH3}>Top Race Score</h3>
+                  <p>Race: {topScoringRace.raceName}</p>
+                  <p>Driver: {topScoringRace.driver}</p>
+                  <p>Score: {topScoringRace.score}</p>
+                  <p>Position: {topScoringRace.position}</p>
+                  <p>Status: {topScoringRace.status}</p>
+                </div>
+              </div>
+              <div className='col-lg-4 col-md-6'>
+                <div className={`${styles.stat} card`}>
+                  <h3  className={styles.sectionTitleH3}>Lowest Race Score</h3>
+                  <p>Race: {bottomScoringRace.raceName}</p>
+                  <p>Driver: {bottomScoringRace.driver}</p>
+                  <p>Score: {bottomScoringRace.score}</p>
+                  <p>Position: {bottomScoringRace.position}</p>
+                  <p>Status: {bottomScoringRace.status}</p>
+                </div>
+              </div>
             </div>
           </div>
-          <div className='col-lg-3'>
-            <div className={`${styles.stat} card`}>
-              <h3>Races</h3>
-              <ul className='races'>
-                {teamRaces.map((race) => (
-                  <li key={race.raceName}>
-                    {race.raceName}
-                  </li>
-                ))}
-              </ul>
+          <div className={styles.previousData}>
+            <div className='row'>
+              <div className='col-lg-6'>
+                <div className={`${styles.previousYearsChampionship} card`}>
+                  <h2 className={styles.sectionTitle}>Previous Total Points</h2>
+                  <Line options={lineOptions} data={lineData} />
+                </div>
+              </div>
+              <div className='col-lg-6'>
+                <div className={`${styles.previousMatchBestFinishPosition} card`}>
+                  <h2 className={styles.sectionTitle}>Previous Best Finish Position</h2>
+                  <Bar options={barOptions} data={barData} className='positionBar'/>
+                </div>
+              </div>
             </div>
           </div>
-          <div className='col-lg-3 col-md-6'>
-            <div className={`${styles.stat} card`}>
-              <h3>Top Race Score</h3>
-              <p>Race: {topScoringRace.raceName}</p>
-              <p>Driver: {topScoringRace.driver}</p>
-              <p>Score: {topScoringRace.score}</p>
-              <p>Position: {topScoringRace.position}</p>
-              <p>Status: {topScoringRace.status}</p>
-            </div>
-          </div>
-          <div className='col-lg-3 col-md-6'>
-            <div className={`${styles.stat} card`}>
-              <h3>Lowest Race Score</h3>
-              <p>Race: {bottomScoringRace.raceName}</p>
-              <p>Driver: {bottomScoringRace.driver}</p>
-              <p>Score: {bottomScoringRace.score}</p>
-              <p>Position: {bottomScoringRace.position}</p>
-              <p>Status: {bottomScoringRace.status}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className={styles.previousData}>
-        <div className='row'>
-          <div className='col-lg-6'>
-            <div className={`${styles.previousYearsChampionship} card`}>
-              <h3>Previous Total Points</h3>
-              <Line options={lineOptions} data={lineData} />
-            </div>
-          </div>
-          <div className='col-lg-6'>
-            <div className={`${styles.previousMatchBestFinishPosition} card`}>
-              <h3>Previous Best Finish Position</h3>
-              <Bar options={barOptions} data={barData} className='positionBar'/>
-            </div>
-          </div>
-        </div>
-      </div>
+        </>
+      }
     </div>
   );
 };
