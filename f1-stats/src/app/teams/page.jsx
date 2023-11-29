@@ -1,13 +1,13 @@
 "use client"; // This is a client component
-import { React, useState, useEffect } from 'react';
-import Image from 'next/image'
-import Link from 'next/link'
-import styles from './styles.module.css'
+import { React, useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import styles from "./styles.module.css";
 
 const Teams = () => {
   let [loading, setLoading] = useState(true);
   const [teams, setTeams] = useState([]);
-  const [season, setSeason] = useState('2023');
+  const [season, setSeason] = useState("2023");
   const url = `http://ergast.com/api/f1/${season}/constructors.json`;
 
   // Fetch data from API asyncronously
@@ -18,13 +18,12 @@ const Teams = () => {
 
       // Now turn data into a json readable format
       const data = await response.json();
-      setTeams(data['MRData']['ConstructorTable']['Constructors']);
-      console.log(data['MRData']['ConstructorTable']['Constructors']);
+      setTeams(data["MRData"]["ConstructorTable"]["Constructors"]);
+      console.log(data["MRData"]["ConstructorTable"]["Constructors"]);
       console.log(teams);
-
     } catch (error) {
       // Error from API fetch
-      console.error('Request failed', error);
+      console.error("Request failed", error);
     }
   };
 
@@ -37,42 +36,58 @@ const Teams = () => {
     setLoading(true);
     var formData = new FormData(e.target);
     const formValues = Object.fromEntries(formData);
-    console.log('form values', formValues)
+    console.log("form values", formValues);
 
     //Set season and re-collect data
-    setSeason(formValues['season']);
-    getData(`http://ergast.com/api/f1/${formValues['season']}/constructors.json`).then(setLoading(false));
-  }
+    setSeason(formValues["season"]);
+    getData(
+      `http://ergast.com/api/f1/${formValues["season"]}/constructors.json`
+    ).then(setLoading(false));
+  };
 
   return (
-    <div className='container'>
+    <div className="container">
       <div className={styles.row}>
         <div className={styles.teamsTitle}>
           <h1>Teams</h1>
           <form onSubmit={handleSubmit} className={styles.seasonSelection}>
-            <div className='form-group'>
-              <input name='season' className={`${styles.dropDown} form-control`} id='season' type='number' min='1950' max='2023' defaultValue='2023' />
-              <input className={`${styles.submitButton} btn btn-primary`} type='submit' value='Select'/>
+            <div className="form-group">
+              <input
+                name="season"
+                className={`${styles.dropDown} form-control`}
+                id="season"
+                type="number"
+                min="1950"
+                max="2023"
+                defaultValue="2023"
+              />
+              <input
+                className={`${styles.submitButton} btn btn-primary`}
+                type="submit"
+                value="Select"
+              />
             </div>
           </form>
         </div>
       </div>
       <div className={`${styles.row} ${styles.seasonResults}`}>
-        { loading && <p>Loading...</p> }
+        {loading && <p>Loading...</p>}
 
         <div>
-          { !loading && 
+          {!loading && (
             <>
               <h2>{season} Season</h2>
               <ul className={styles.teams}>
                 {teams.map((team) => (
                   <li key={team.constructorId}>
-                    <Link href={`/teams/${team.constructorId}/${season}`}>{team.name}</Link>
+                    <Link href={`/teams/${team.constructorId}/${season}`}>
+                      {team.name}
+                    </Link>
                   </li>
                 ))}
               </ul>
             </>
-          }
+          )}
         </div>
       </div>
     </div>
