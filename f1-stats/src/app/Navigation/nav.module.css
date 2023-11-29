@@ -1,36 +1,80 @@
-.stickyPos{
-    position: absolute;
-    display: flex;
-    width: 100%;
-}
-.container{
+.container {
     background: white;
     display: flex;
     width: 100%;
     height: var(--navbar-height);
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    border-bottom: 1px solid grey;
     padding: 0 10px;
     position: sticky;
     top: 0px;
+    z-index: 333;
+    overflow: hidden;
+    background: var(--f1-red-color);
 }
-.logo{
+
+.content {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: var(--content-max-width);
+    padding: var(--content-padding-sides);
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.logo {
     flex-grow: 2;
 }
 
-.links{
-    justify-content: space-around;
+.navButtonContainer {
+    justify-content: flex-end;
     flex-grow: 6;
     display: flex;
+    height: 100%;
 }
-.search{
+
+.navButtons {
+    width: fit-content;
+    padding: 0 30px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 0 30px;
+}
+
+.navButtonContainer a:last-child {
+    margin-right: 0px;
+}
+
+.navButtons:hover {
+    background: var(--global-background);
+}
+
+.search {
     justify-content: flex-end;
     display: flex;
     flex-grow: 2;
 }
-.searchBar{
+
+.searchBar {
     width: 300px;
     padding: 8px;
 
+}
+
+.borders {
+    display: flex;
+    padding: 0 10px 10px 0;
+    border: 1px solid white;
+    border-radius: 0 0 10px 0;
+    border-top: none;
+    border-left: none;
+    position: absolute;
+    top: 20px;
+    height: 50%;
+    width: 75%;
 }
