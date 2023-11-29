@@ -28,6 +28,7 @@ body {
     padding: var(--content-padding-sides);
     margin: auto;
     padding-top: 20px;
+    background: #1a1a1a;
 }
 
 a {

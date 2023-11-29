@@ -88,12 +88,12 @@ const LastRace = () => {
                 <h2>Most Recent Race: </h2>
                 <div class='next-race'>
                     <div className="row">
-                        <div className="col-md-4">
+                        <div className="col-lg-4 col-md-6">
                             <h3>{circuit.circuitName}</h3>
                             <p>{pageProps.desc}</p>
                             <a href={circuit.url} target='_blank'>View on Wikipedia</a>
                         </div>
-                        <div className="col-md-4">
+                        <div className="col-lg-8 col-md-6">
                             <div style={{ height: '30vh', width: '100%' }}>
                                 <GoogleMapReact
                                     bootstrapURLKeys={{ key: "AIzaSyCPxaLwQ3MLzMdWYD4yK0xgGbh5xBFhkJw" }}
@@ -109,9 +109,6 @@ const LastRace = () => {
                                     
                                 </GoogleMapReact>
                             </div>
-                        </div>
-                        <div className="col-md-4">
-                            <h2>Weather</h2>
                         </div>
                     </div>
                 </div>
