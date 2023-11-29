@@ -86,7 +86,7 @@ const LastRace = () => {
     return (
             <div className='next-race-container'>
                 <h2>Most Recent Race: </h2>
-                <div class='next-race'>
+                <div className='next-race'>
                     <div className="row">
                         <div className="col-lg-4 col-md-6">
                             <h3>{circuit.circuitName}</h3>
