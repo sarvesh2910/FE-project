@@ -40,7 +40,7 @@ a {
     color: white;
 }
 
-
+/* Positions Bar Graph on Teams page */
 .positionBar {
     background-image:url('/finishline.jpg');
     background-repeat: repeat-y;

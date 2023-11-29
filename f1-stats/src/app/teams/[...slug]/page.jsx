@@ -1,7 +1,6 @@
 'use client'
 import { React, useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import Image from 'next/image'
 import styles from './styles.module.css'
 import {
   Chart as ChartJS,
