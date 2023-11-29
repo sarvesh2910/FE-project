@@ -38,7 +38,7 @@
 }
 
 .stat {
-  padding: 1em;
+  padding: 0em;
 }
 
 .stat p {
@@ -54,11 +54,6 @@
   margin-top: 20px;
   margin-bottom: 20px;
 }
-
-.previousYearsChampionship {
-  padding: 1em;
-}
-
-.previousMatchBestFinishPosition {
-  padding: 1em;
+.statHeader {
+  background: #494949;
 }

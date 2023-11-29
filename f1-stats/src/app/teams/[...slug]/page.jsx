@@ -408,29 +408,41 @@ const Team = () => {
           <div className={styles.stats}>
             <div className="row">
               <div className="col-lg-4">
-                <div className={`${styles.stat} card`}>
-                  <h3 className={styles.sectionTitleH3}>Total Points</h3>
-                  <p className={styles.totalPoints}>{total}</p>
+                <div className={`${styles.stat} card rounded-0`}>
+                  <div class={`${styles.statHeader} card-header rounded-0`}>
+                    <h3 className={styles.sectionTitleH3}>Total Points</h3>
+                  </div>
+                  <div class="card-body">
+                    <p className={styles.totalPoints}>{total}</p>
+                  </div>
                 </div>
               </div>
               <div className="col-lg-4 col-md-6">
-                <div className={`${styles.stat} card`}>
-                  <h3 className={styles.sectionTitleH3}>Top Race Score</h3>
-                  <p>Race: {topScoringRace.raceName}</p>
-                  <p>Driver: {topScoringRace.driver}</p>
-                  <p>Score: {topScoringRace.score}</p>
-                  <p>Position: {topScoringRace.position}</p>
-                  <p>Status: {topScoringRace.status}</p>
+                <div className={`${styles.stat} card rounded-0`}>
+                  <div class={`${styles.statHeader} card-header rounded-0`}>
+                    <h3 className={styles.sectionTitleH3}>Top Race Score</h3>
+                  </div>
+                  <div class="card-body">
+                    <p>Race: {topScoringRace.raceName}</p>
+                    <p>Driver: {topScoringRace.driver}</p>
+                    <p>Score: {topScoringRace.score}</p>
+                    <p>Position: {topScoringRace.position}</p>
+                    <p>Status: {topScoringRace.status}</p>
+                  </div>
                 </div>
               </div>
               <div className="col-lg-4 col-md-6">
-                <div className={`${styles.stat} card`}>
-                  <h3 className={styles.sectionTitleH3}>Lowest Race Score</h3>
-                  <p>Race: {bottomScoringRace.raceName}</p>
-                  <p>Driver: {bottomScoringRace.driver}</p>
-                  <p>Score: {bottomScoringRace.score}</p>
-                  <p>Position: {bottomScoringRace.position}</p>
-                  <p>Status: {bottomScoringRace.status}</p>
+                <div className={`${styles.stat} card rounded-0`}>
+                  <div class={`${styles.statHeader} card-header rounded-0`}>
+                    <h3 className={styles.sectionTitleH3}>Lowest Race Score</h3>
+                  </div>
+                  <div class="card-body">
+                    <p>Race: {bottomScoringRace.raceName}</p>
+                    <p>Driver: {bottomScoringRace.driver}</p>
+                    <p>Score: {bottomScoringRace.score}</p>
+                    <p>Position: {bottomScoringRace.position}</p>
+                    <p>Status: {bottomScoringRace.status}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -438,23 +450,31 @@ const Team = () => {
           <div className={styles.previousData}>
             <div className="row">
               <div className="col-lg-6">
-                <div className={`${styles.previousYearsChampionship} card`}>
-                  <h2 className={styles.sectionTitle}>Previous Total Points</h2>
-                  <Line options={lineOptions} data={lineData} />
+                <div className={`card rounded-0`}>
+                  <div class={`${styles.statHeader} card-header rounded-0`}>
+                    <h2 className={styles.sectionTitle}>Previous Total Points</h2>
+                  </div>
+                  <div className='card-body'>
+                    <Line options={lineOptions} data={lineData} />
+                  </div>
                 </div>
               </div>
               <div className="col-lg-6">
                 <div
-                  className={`${styles.previousMatchBestFinishPosition} card`}
+                  className={` card rounded-0`}
                 >
-                  <h2 className={styles.sectionTitle}>
-                    Previous Best Finish Position
-                  </h2>
-                  <Bar
-                    options={barOptions}
-                    data={barData}
-                    className="positionBar"
-                  />
+                  <div class={`${styles.statHeader} card-header rounded-0`}>
+                    <h2 className={styles.sectionTitle}>
+                      Previous Best Finish Position
+                    </h2>
+                  </div>
+                  <div className='card-body'>
+                    <Bar
+                      options={barOptions}
+                      data={barData}
+                      className="positionBar"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
