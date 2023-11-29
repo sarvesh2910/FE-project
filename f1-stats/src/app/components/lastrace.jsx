@@ -1,9 +1,11 @@
 'use client'
 import { React, useState, useEffect } from 'react';
 import GoogleMapReact from 'google-map-react';
+import style from './lastrace.module.css';
 
 const LastRace = () => {
     // Initialize state settings
+    let [loading, setLoading] = useState(true);
     const [circuit, setCircuit] = useState({circuitName: '', url: ''});
     const [circuitCoordinates, setCircuitCoordinates] = useState({lat: '', lon: ''});
     const [pageProps, setPageProps] = useState({desc: ''});
@@ -80,38 +82,44 @@ const LastRace = () => {
     };
 
     useEffect(() => {
-        getCircuitData(circuitUrl);
+        getCircuitData(circuitUrl).then(setLoading(false));
     }, []);
 
     return (
-            <div className='next-race-container'>
-                <h2>Most Recent Race: </h2>
-                <div className='next-race'>
-                    <div className="row">
-                        <div className="col-lg-4 col-md-6">
-                            <h3>{circuit.circuitName}</h3>
-                            <p>{pageProps.desc}</p>
-                            <a href={circuit.url} target='_blank'>View on Wikipedia</a>
-                        </div>
-                        <div className="col-lg-8 col-md-6">
-                            <div style={{ height: '30vh', width: '100%' }}>
-                                <GoogleMapReact
-                                    bootstrapURLKeys={{ key: "AIzaSyCPxaLwQ3MLzMdWYD4yK0xgGbh5xBFhkJw" }}
-                                    defaultCenter={defaultProps.center}
-                                    defaultZoom={defaultProps.zoom}
-                                    center={[
-                                        circuitCoordinates.lat,
-                                        circuitCoordinates.lon
-                                    ]}
-                                    yesIWantToUseGoogleMapApiInternals
-                                    onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
-                                >
-                                    
-                                </GoogleMapReact>
+            <div className={style.lastRaceContainer}>
+                {loading && <p>Loading...</p>}
+
+                {!loading &&
+                    <>
+                        <h2>Most Recent Race: </h2>
+                        <div className={style.lastRace}>
+                            <div className="row">
+                                <div className="col-lg-4 col-md-6">
+                                    <h3>{circuit.circuitName}</h3>
+                                    <p>{pageProps.desc}</p>
+                                    <a href={circuit.url} target='_blank'>View on Wikipedia</a>
+                                </div>
+                                <div className="col-lg-8 col-md-6">
+                                    <div style={{ height: '30vh', width: '100%' }}>
+                                        <GoogleMapReact
+                                            bootstrapURLKeys={{ key: "AIzaSyCPxaLwQ3MLzMdWYD4yK0xgGbh5xBFhkJw" }}
+                                            defaultCenter={defaultProps.center}
+                                            defaultZoom={defaultProps.zoom}
+                                            center={[
+                                                circuitCoordinates.lat,
+                                                circuitCoordinates.lon
+                                            ]}
+                                            yesIWantToUseGoogleMapApiInternals
+                                            onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
+                                        >
+                                            
+                                        </GoogleMapReact>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </>
+                }
             </div>
     );
 };

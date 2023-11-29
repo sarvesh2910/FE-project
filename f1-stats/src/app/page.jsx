@@ -6,7 +6,11 @@ const Home = () => {
 
     return (
         <div className='container'>
-            <LastRace></LastRace>
+            <div class="row">
+                <div class="col-lg-8">
+                <LastRace></LastRace>
+                </div>
+            </div>
         </div>
     );
 };
