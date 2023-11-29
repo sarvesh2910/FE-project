@@ -5,7 +5,7 @@ import Home from '@/app/page';
 import '@testing-library/jest-dom';
 
 describe('Home', () => {
-  it('renders a heading', () => {
+  it('Renders component heading', () => {
     render(<Home />)
 
     const heading = screen.getByRole('heading', {
