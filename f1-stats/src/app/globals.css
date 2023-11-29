@@ -16,7 +16,7 @@
 html,
 body {
     max-width: 100vw;
-    background: #1a1a1a;
+    background-color: #1a1a1a;
     color: white;
     font-family: sans-serif;
 }
@@ -41,3 +41,10 @@ a {
     color: white;
 }
 
+/* Positions Bar Graph on Teams page */
+.positionBar {
+    background-image:url('/finishline.jpg');
+    background-repeat: repeat-y;
+    padding-right: 20px;
+    background-position: top right;
+}
