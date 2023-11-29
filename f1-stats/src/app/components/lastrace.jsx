@@ -83,6 +83,7 @@ const LastRace = () => {
 
     useEffect(() => {
         getCircuitData(circuitUrl).then(setLoading(false));
+        console.log(process.env.GOOGLE_API_KEY);
     }, []);
 
     return (
@@ -102,7 +103,7 @@ const LastRace = () => {
                                 <div className="col-lg-8 col-md-6">
                                     <div style={{ height: '30vh', width: '100%' }}>
                                         <GoogleMapReact
-                                            bootstrapURLKeys={{ key: "AIzaSyCPxaLwQ3MLzMdWYD4yK0xgGbh5xBFhkJw" }}
+                                            bootstrapURLKeys={{ key: process.env.GOOGLE_API_KEY}}
                                             defaultCenter={defaultProps.center}
                                             defaultZoom={defaultProps.zoom}
                                             center={[
