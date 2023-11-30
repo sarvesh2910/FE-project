@@ -15,7 +15,7 @@ const Navbar = () => {
                         <Image
                             width={100}
                             height={80}
-                            src={'/F1.svg'}></Image>
+                            src={'/F1.svg'} alt={'Formula One Logo'}></Image>
                     </Link>
                 </div>
                 <div className={style.navButtonContainer}>
