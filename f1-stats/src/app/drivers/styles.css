@@ -1,0 +1,16 @@
+/* styles.css */
+.custom-table {
+    background-color: black;
+    color: white;
+  }
+
+
+.th-spacing {
+    margin-right: 20px;
+  }
+
+  table {
+  border-collapse: separate;
+  border-spacing: 20px 10px; /* Adjust the 10px to your desired spacing */
+}
+    /* --f1-red-color: rgb(238, 0, 0); */
