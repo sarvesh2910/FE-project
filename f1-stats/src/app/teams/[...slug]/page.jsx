@@ -456,7 +456,7 @@ const Team = () => {
           <div className={styles.previousData}>
             <div className="row">
               <div className="col-lg-6">
-                <div className={`card rounded-0`}>
+                <div className={`${styles.stat} card rounded-0`}>
                   <div class={`${styles.statHeader} card-header rounded-0`}>
                     <h2 className={styles.sectionTitle}>
                       Previous Total Points
@@ -468,7 +468,7 @@ const Team = () => {
                 </div>
               </div>
               <div className="col-lg-6">
-                <div className={` card rounded-0`}>
+                <div className={`${styles.stat} card rounded-0`}>
                   <div class={`${styles.statHeader} card-header rounded-0`}>
                     <h2 className={styles.sectionTitle}>
                       Previous Best Finish Position

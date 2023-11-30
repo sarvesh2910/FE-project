@@ -47,6 +47,11 @@
   border: 1px solid #363636;
 }
 
+.dropDown:focus {
+  color: white;
+  background: #494949;
+}
+
 .styles {
   float: none;
 }
