@@ -5,6 +5,13 @@ import PositionChart from "@/app/races/positionPerLap";
 import style from './races.module.css';
 import Podium from "@/app/races/podium";
 
+export const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = {month: 'short', day: '2-digit'};
+    return new Intl.DateTimeFormat('en-US', options).format(date);
+};
+
+
 const Races = () => {
     let [loading, setLoading] = useState(true)
     let [seasonsList, setSeasonsList] = useState([])
@@ -50,11 +57,6 @@ const Races = () => {
         })
     }
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        const options = {month: 'short', day: '2-digit'};
-        return new Intl.DateTimeFormat('en-US', options).format(date);
-    };
 
     const podiumsFinishers = (results) => {
         let podiumObject = {}

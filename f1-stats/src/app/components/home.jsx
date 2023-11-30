@@ -54,7 +54,7 @@ const HomeDash = () => {
                     </div>
                     <div className={style.standings}>
                         <div className={`${style.driver} ${style.partition}`}>
-                            <h2>Drivers <br/> Championship</h2>
+                            <h2>Drivers Championship</h2>
                             <Podium data={getDriverPodium()}/>
                             <div className={tableStyle.raceResult}>
                                 <h4 className={tableStyle.headings}>Standings Table</h4>
@@ -82,9 +82,8 @@ const HomeDash = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className={style.border}/>
                         <div className={`${style.team} ${style.partition}`}>
-                            <h2>Constructors <br/> Championship</h2>
+                            <h2>Constructors  Championship</h2>
                             <Podium data={getTeamPodium()}/>
                             <div className={tableStyle.raceResult}>
                                 <h4 className={tableStyle.headings}>Standings Table</h4>

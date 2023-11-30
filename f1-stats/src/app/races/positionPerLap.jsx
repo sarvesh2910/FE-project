@@ -5,6 +5,15 @@ import {BoxplotChart, LineChart} from '@carbon/charts-react'
 import '@carbon/charts-react/styles.css'
 import style from './races.module.css';
 
+export const convertTimeToSeconds = (timeString) => {
+    timeString = timeString.replace(/([.])+/g, ':')
+    const timeComponents = timeString.split(':');
+    const minutes = parseInt(timeComponents[0], 10);
+    const seconds = parseInt(timeComponents[1], 10);
+    const milliseconds = parseInt(timeComponents[2], 10);
+    const totalSeconds = (minutes * 60) + seconds + milliseconds / 1000;
+    return parseFloat(totalSeconds.toFixed(3));
+}
 const PositionChart = ({round, season, fastestLap = null, driverMapping}) => {
     let [loading, setLoading] = useState(true)
     let [dataset, setDataset] = useState([])
@@ -52,15 +61,6 @@ const PositionChart = ({round, season, fastestLap = null, driverMapping}) => {
         return answer
     }
 
-    const convertTimeToSeconds = (timeString) => {
-        timeString = timeString.replace(/([.])+/g, ':')
-        const timeComponents = timeString.split(':');
-        const minutes = parseInt(timeComponents[0], 10);
-        const seconds = parseInt(timeComponents[1], 10);
-        const milliseconds = parseInt(timeComponents[2], 10);
-        const totalSeconds = (minutes * 60) + seconds + milliseconds / 1000;
-        return parseFloat(totalSeconds.toFixed(3));
-    }
 
     const showOutlier = () => {
         setShowOutlier(!showOutliers)
@@ -156,7 +156,7 @@ const PositionChart = ({round, season, fastestLap = null, driverMapping}) => {
                     ></ LineChart>
                 </div>
                 <div className={style.headingContainer}>
-                    <h3 className={style.headings}>Lap timings Drivers (Box-plot) </h3>
+                    <h3 className={style.headings}>Drivers Lap timings (Box-plot) </h3>
                     <button className={style.toggleOutlier}
                             onClick={showOutlier}>{showOutliers ? 'Hide' : 'Show'} Outlier Laps
                     </button>
@@ -168,7 +168,7 @@ const PositionChart = ({round, season, fastestLap = null, driverMapping}) => {
                     ></ BoxplotChart>
                 </div>
                 <div className={style.headingContainer}>
-                    <h3 className={style.headings}>Lap timings Drivers (Line Chart) </h3>
+                    <h3 className={style.headings}>Drivers Lap timings (Line Chart) </h3>
                     <button className={style.toggleOutlier}
                             onClick={showOutlier}>{showOutliers ? 'Hide' : 'Show'} Outlier Laps
                     </button>
