@@ -42,7 +42,9 @@ const Teams = () => {
     setSeason(formValues["season"]);
     getData(
       `http://ergast.com/api/f1/${formValues["season"]}/constructors.json`
-    ).then(setLoading(false));
+    ).then(setTimeout(() => {
+      setLoading(false);
+    }, "1500"));
   };
 
   return (

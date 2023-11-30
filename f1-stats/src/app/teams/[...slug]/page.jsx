@@ -75,7 +75,9 @@ const Team = () => {
 
   // Fetch team data from API asyncronously
   useEffect(() => {
-    getAll().then(setLoading(false));
+    getAll().then(setTimeout(() => {
+      setLoading(false);
+    }, "1500"));
   }, []);
 
   const getAll = async function getAllData() {
@@ -331,13 +333,13 @@ const Team = () => {
         label: lastSeason,
         data: lastYearTeamResults,
         borderColor: "#8A3FFC",
-        backgroundColor: "grey",
+        backgroundColor: "#8A3FFC",
       },
       {
         label: season,
         data: teamResults,
         borderColor: "#BA4E00",
-        backgroundColor: "grey",
+        backgroundColor: "#BA4E00",
       },
     ],
   };

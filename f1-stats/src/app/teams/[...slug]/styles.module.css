@@ -6,7 +6,7 @@
 }
 
 .section {
-  color: ;
+  color: white;
 }
 
 .sectionTitleH3 {
@@ -19,6 +19,7 @@
 
 .nationality {
   font-size: 26px;
+  font-style: italic;
 }
 
 .seasonTitle {
