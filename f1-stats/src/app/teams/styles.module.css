@@ -30,7 +30,7 @@
 }
 
 .dropDown {
-  max-width: 260px;
+  width: 260px;
   float: left;
   padding: 0 10px;
   background: #494949;

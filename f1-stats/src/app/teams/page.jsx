@@ -1,7 +1,6 @@
 "use client"; // This is a client component
 import { React, useState, useEffect } from "react";
 import {getSeasonsList} from '../api/api'
-import Image from "next/image";
 import Link from "next/link";
 import styles from "./styles.module.css";
 

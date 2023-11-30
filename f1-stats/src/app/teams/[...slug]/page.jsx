@@ -1,7 +1,7 @@
 "use client";
 import { React, useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import Image from "next/image";
+import Link from "next/link";
 import styles from "./styles.module.css";
 import {
   Chart as ChartJS,
@@ -385,6 +385,7 @@ const Team = () => {
 
       {!loading && (
         <>
+          <Link className="backToLink" href={`/teams`}>← Back to Teams</Link>
           <h1 className={styles.teamTitle}>
             {team.name},{" "}
             <span className={styles.nationality}>{team.nationality}</span>
