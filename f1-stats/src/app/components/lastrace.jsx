@@ -82,7 +82,9 @@ const LastRace = () => {
     };
 
     useEffect(() => {
-        getCircuitData(circuitUrl).then(setLoading(false));
+        getCircuitData(circuitUrl).then(setTimeout(() => {
+            setLoading(false);
+          }, "1500"));
         console.log(process.env.GOOGLE_API_KEY);
     }, []);
 
