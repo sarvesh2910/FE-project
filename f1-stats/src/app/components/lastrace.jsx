@@ -4,6 +4,7 @@ import GoogleMapReact from 'google-map-react';
 import style from './lastrace.module.css';
 import {getRaceResults} from "@/app/api/api";
 import {convertTimeToSeconds} from "@/app/races/positionPerLap";
+import {formatDate} from "@/app/races/page";
 
 const LastRace = () => {
     // Initialize state settings
@@ -12,6 +13,7 @@ const LastRace = () => {
     const [circuitCoordinates, setCircuitCoordinates] = useState({lat: '', lon: ''});
     const [pageProps, setPageProps] = useState({desc: ''});
     const [gpName, setGpName] = useState('')
+    const [gpDate, setGpDate] = useState('')
     const circuitUrl = `https://ergast.com/api/f1/current.json`;
     const [circuitLength, setCircuitLength] = useState(null)
     // Set default values for Google Maps
@@ -55,9 +57,11 @@ const LastRace = () => {
             const races = data['MRData']['RaceTable']['Races'];
             const gpName = races[races.length - 1]['raceName']
             const circuit = races[races.length - 1]['Circuit'];
+            const date = races[races.length - 1]['date']
 
             // Set state values from result
             setGpName(gpName)
+            setGpDate(formatDate(date))
             setCircuit(circuit);
             setCircuitCoordinates(prevState => ({
                 ...prevState,
@@ -112,8 +116,9 @@ const LastRace = () => {
                     <div className={style.lastRace}>
                         <div className="row" style={{height: `100%`}}>
                             <div className={`col-lg-4 col-md-6 ${style.circuitInfo}`}>
+                                <p>{gpDate}</p>
                                 <h2>{gpName}</h2>
-                                <h4>{circuit.circuitName}, {circuit.Location.country}</h4>
+                                <h4>{circuit.circuitName}, {circuit.Location.country}.</h4>
                                 <div>
                                     <p>{pageProps.desc}.</p>
                                     <p>Circuit Length : {circuitLength?.toFixed(2)}KM</p>
