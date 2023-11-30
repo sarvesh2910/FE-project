@@ -167,14 +167,9 @@ const Team = () => {
           (result) => result["points"]
         );
 
-        console.log(thisRacePointsArray);
-
         let thisRacePoints = thisRacePointsArray.reduce((partialSum, a) => parseInt(partialSum) + parseInt(a), 0);
 
-        console.log(`${parseInt(thisRacePointsArray[0])} + ${parseInt(thisRacePointsArray[1])} = ${thisRacePoints}`);
-
         resultArray.push(j + thisRacePoints);
-        console.log(resultArray);
 
         const highestResult = races[i]["Results"].reduce(function (
           prev,
