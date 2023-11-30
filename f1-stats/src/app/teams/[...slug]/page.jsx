@@ -373,9 +373,9 @@ const Team = () => {
         label: "Best Position",
         data: [previousYearBestPosition, topScoringRace.position],
         borderColor:
-          "black",
+          "#ee0000",
         backgroundColor:
-          "black",
+          "#ee0000",
       },
     ],
   };
