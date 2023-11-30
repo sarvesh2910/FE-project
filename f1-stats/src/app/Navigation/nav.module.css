@@ -46,6 +46,10 @@
     margin: 0 30px;
 }
 
+.navButtons p{
+    margin: 0;
+}
+
 .navButtonContainer a:last-child {
     margin-right: 0px;
 }
