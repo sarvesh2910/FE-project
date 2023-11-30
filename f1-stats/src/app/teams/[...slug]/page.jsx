@@ -75,9 +75,11 @@ const Team = () => {
 
   // Fetch team data from API asyncronously
   useEffect(() => {
-    getAll().then(setTimeout(() => {
-      setLoading(false);
-    }, "1600"));
+    getAll().then(
+      setTimeout(() => {
+        setLoading(false);
+      }, "1600")
+    );
   }, []);
 
   const getAll = async function getAllData() {
@@ -298,21 +300,21 @@ const Team = () => {
         display: false,
         text: "Points Earned Per Round",
         position: "top",
-      }
+      },
     },
     scales: {
       x: {
         title: {
           display: true,
-          text: 'Rounds'
+          text: "Rounds",
         },
       },
       y: {
         title: {
           display: true,
-          text: 'Points'
-        }
-      }
+          text: "Points",
+        },
+      },
     },
   };
 
@@ -354,7 +356,7 @@ const Team = () => {
         reverse: true,
         title: {
           display: true,
-          text: 'Positions'
+          text: "Positions",
         },
       },
     },
@@ -368,10 +370,8 @@ const Team = () => {
       {
         label: "Best Position",
         data: [previousYearBestPosition, topScoringRace.position],
-        borderColor:
-          "#ee0000",
-        backgroundColor:
-          "#ee0000",
+        borderColor: "#ee0000",
+        backgroundColor: "#ee0000",
       },
     ],
   };
@@ -417,7 +417,9 @@ const Team = () => {
                     <h3 className={styles.sectionTitleH3}>Total Points</h3>
                   </div>
                   <div class="card-body">
-                    <p className={styles.totalPoints}>{teamResults[teamResults.length-1]}</p>
+                    <p className={styles.totalPoints}>
+                      {teamResults[teamResults.length - 1]}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -456,23 +458,23 @@ const Team = () => {
               <div className="col-lg-6">
                 <div className={`card rounded-0`}>
                   <div class={`${styles.statHeader} card-header rounded-0`}>
-                    <h2 className={styles.sectionTitle}>Previous Total Points</h2>
+                    <h2 className={styles.sectionTitle}>
+                      Previous Total Points
+                    </h2>
                   </div>
-                  <div className='card-body'>
+                  <div className="card-body">
                     <Line options={lineOptions} data={lineData} />
                   </div>
                 </div>
               </div>
               <div className="col-lg-6">
-                <div
-                  className={` card rounded-0`}
-                >
+                <div className={` card rounded-0`}>
                   <div class={`${styles.statHeader} card-header rounded-0`}>
                     <h2 className={styles.sectionTitle}>
                       Previous Best Finish Position
                     </h2>
                   </div>
-                  <div className='card-body'>
+                  <div className="card-body">
                     <Bar
                       options={barOptions}
                       data={barData}

@@ -23,7 +23,9 @@
   cursor: pointer;
 }
 
-.submitButton:hover, .submitButton:active, .submitButton:disabled {
+.submitButton:hover,
+.submitButton:active,
+.submitButton:disabled {
   background-color: var(--global-background) !important;
 }
 
