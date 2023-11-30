@@ -22,7 +22,6 @@ const LastRace = () => {
 
     // Fetch description data from Wikipedia asynchronously
     const getWikiData = async function fetchWikiDataFromURL(endpoint) {
-        console.log(endpoint);
         try {
             const response = await fetch(endpoint);
 
@@ -85,7 +84,6 @@ const LastRace = () => {
         getCircuitData(circuitUrl).then(setTimeout(() => {
             setLoading(false);
           }, "1000"));
-        console.log(process.env.GOOGLE_API_KEY);
     }, []);
 
     return (
