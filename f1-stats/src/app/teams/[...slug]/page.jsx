@@ -48,7 +48,6 @@ const Team = () => {
   const [teamRaces, setTeamRaces] = useState([]);
   const [teamResults, setTeamResults] = useState([]);
   const [lastYearTeamResults, setLastYearTeamResults] = useState([]);
-  const [total, setTotal] = useState();
   const [topScoringRace, setTopScoringRace] = useState({
     raceName: "",
     driver: "",
@@ -139,9 +138,6 @@ const Team = () => {
       console.log(races);
       setTeamRaces(races);
 
-      // Declare total points for constructor
-      let totalPoints = 0;
-
       // Now get highest & lowerst scoring races
       let highestScore = 0;
       let highestScoreRace = "";
@@ -173,7 +169,6 @@ const Team = () => {
         );
 
         resultArray.push(j + thisRacePoints);
-        totalPoints += thisRacePoints;
 
         const highestResult = races[i]["Results"].reduce(function (
           prev,
@@ -213,9 +208,6 @@ const Team = () => {
           lowestScoreStatus = lowestResult.status;
         }
       }
-
-      // Set total using accumulated points
-      setTotal(totalPoints);
 
       // Set top scoring race stat
       setTopScoringRace((prevState) => ({
@@ -305,13 +297,27 @@ const Team = () => {
     responsive: true,
     plugins: {
       legend: {
-        position: "bottom",
+        position: "top",
       },
       title: {
-        display: true,
+        display: false,
         text: "Points Earned Per Round",
-        position: "bottom",
+        position: "top",
+      }
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Rounds'
+        },
       },
+      y: {
+        title: {
+          display: true,
+          text: 'Points'
+        }
+      }
     },
   };
 
@@ -324,14 +330,14 @@ const Team = () => {
       {
         label: lastSeason,
         data: lastYearTeamResults,
-        borderColor: "black",
-        backgroundColor: "black",
+        borderColor: "#8A3FFC",
+        backgroundColor: "grey",
       },
       {
         label: season,
         data: teamResults,
-        borderColor: "red",
-        backgroundColor: "red",
+        borderColor: "#BA4E00",
+        backgroundColor: "grey",
       },
     ],
   };
@@ -341,12 +347,12 @@ const Team = () => {
     indexAxis: "y",
     plugins: {
       legend: {
-        position: "bottom",
+        position: "top",
       },
       title: {
-        display: true,
+        display: false,
         text: "Best Position Per Season",
-        position: "bottom",
+        position: "top",
       },
     },
     scales: {
@@ -365,9 +371,9 @@ const Team = () => {
         label: "Best Position",
         data: [previousYearBestPosition, topScoringRace.position],
         borderColor:
-          "linear-gradient(135deg, rgba(0,0,0,0) 0%, rgba(59,59,59,1) 60%, rgba(59,59,59,1) 100%)",
+          "black",
         backgroundColor:
-          "linear-gradient(135deg, rgba(0,0,0,0) 0%, rgba(59,59,59,1) 60%, rgba(59,59,59,1) 100%)",
+          "black",
       },
     ],
   };
@@ -413,7 +419,7 @@ const Team = () => {
                     <h3 className={styles.sectionTitleH3}>Total Points</h3>
                   </div>
                   <div class="card-body">
-                    <p className={styles.totalPoints}>{total}</p>
+                    <p className={styles.totalPoints}>{teamResults[teamResults.length-1]}</p>
                   </div>
                 </div>
               </div>
