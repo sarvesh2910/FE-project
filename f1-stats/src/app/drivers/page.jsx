@@ -51,45 +51,60 @@ function DriversList() {
     );
 
     return (
-        <div className="container">
-            <div className="row mb-3">
-                <div className="col-6 col-md-3">
-                    <input
-                        type="number"
-                        className="form-control"
-                        placeholder="Enter year"
-                        value={yearFilter}
-                        onChange={(e) => setYearFilter(e.target.value)}
-                    />
-                </div>
-                <div className="col-6 col-md-3 position-relative">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Search for a driver"
-                        value={searchQuery}
-                        onChange={handleSearchChange}
-                        onFocus={() => setShowDropdown(true)}
-                    />
-                    {showDropdown && (
-                        <div className="list-group w-100" style={{ maxHeight: '200px', overflowY: 'auto', zIndex: 1050 }}>
-                            {filteredDrivers.map(driver => (
-                                <button 
-                                    type="button"
-                                    key={driver.driverId} 
-                                    className="list-group-item list-group-item-action"
-                                    onClick={() => handleDriverClick(driver)}
-                                >
-                                    {driver.givenName} {driver.familyName}
-                                </button>
-                            ))}
-                        </div>
-                    )}
-                </div>
-            </div>
-            {loading && <p>Loading drivers...</p>}
-            {error && <p>{error}</p>}
-            {selectedDriver && (
+      <div className="container">
+          {/* Title for F1 Drivers */}
+          <div className="row mb-3">
+              <div className="col">
+                  <h2>F1 Drivers</h2>
+              </div>
+          </div>
+
+          {/* Search bars */}
+          <div className="row mb-3">
+              {/* Year input */}
+              <div className="col-6 col-md-3">
+                  <input
+                      type="number"
+                      className="form-control"
+                      placeholder="Enter year"
+                      value={yearFilter}
+                      onChange={(e) => setYearFilter(e.target.value)}
+                  />
+              </div>
+              {/* Driver name input */}
+              <div className="col-6 col-md-3 position-relative">
+                  <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Search for a driver"
+                      value={searchQuery}
+                      onChange={handleSearchChange}
+                      onFocus={() => setShowDropdown(true)}
+                  />
+                  {/* Dropdown for driver search results */}
+                  {showDropdown && (
+                      <div className="list-group w-100" style={{ maxHeight: '200px', overflowY: 'auto', zIndex: 1050 }}>
+                          {filteredDrivers.map(driver => (
+                              <button 
+                                  type="button"
+                                  key={driver.driverId} 
+                                  className="list-group-item list-group-item-action"
+                                  onClick={() => handleDriverClick(driver)}
+                              >
+                                  {driver.givenName} {driver.familyName}
+                              </button>
+                          ))}
+                      </div>
+                  )}
+              </div>
+          </div>
+
+          {/* Loading and error messages */}
+          {loading && <p>Loading drivers...</p>}
+          {error && <p>{error}</p>}
+
+          {/* Driver details */}
+          {selectedDriver && (
                 <div className="row mt-3">
                     <div className="col">
             <h3>Driver Details</h3>
