@@ -12,15 +12,12 @@ const Teams = () => {
 
   // Fetch data from API asyncronously
   const getData = async function fetchDataFromURL(endpoint) {
-    console.log(endpoint);
     try {
       const response = await fetch(endpoint);
 
       // Now turn data into a json readable format
       const data = await response.json();
       setTeams(data["MRData"]["ConstructorTable"]["Constructors"]);
-      console.log(data["MRData"]["ConstructorTable"]["Constructors"]);
-      console.log(teams);
     } catch (error) {
       // Error from API fetch
       console.error("Request failed", error);
@@ -36,7 +33,6 @@ const Teams = () => {
     setLoading(true);
     var formData = new FormData(e.target);
     const formValues = Object.fromEntries(formData);
-    console.log("form values", formValues);
 
     //Set season and re-collect data
     setSeason(formValues["season"]);

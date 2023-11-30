@@ -269,19 +269,13 @@ const Team = () => {
         const lastYearResults = lastYearRaces[i]["Results"].map(
           (result) => result.position
         );
-        console.log(lastYearResults);
 
         highestPositionPerRace = Math.min(parseInt(lastYearResults));
 
-        console.log(
-          `is ${highestPositionPerRace} smaller or equal to ${highestPositionTotal}?`
-        );
         if (
           parseInt(highestPositionPerRace) <= parseInt(highestPositionTotal)
         ) {
-          console.log("The value is smaller this time");
           highestPositionTotal = parseInt(highestPositionPerRace);
-          console.log(`highestPositionTotal = ${highestPositionTotal}`);
         }
       }
 
@@ -324,7 +318,6 @@ const Team = () => {
 
   const lineLabels = teamRaces.map((race) => race.round);
 
-  //need to fix labels
   const lineData = {
     labels: lineLabels,
     datasets: [
