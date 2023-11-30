@@ -1,21 +1,61 @@
 .teamsTitle {
-    margin-bottom: 30px;
+  margin-bottom: 30px;
+}
+
+.row {
+  float: none;
+  display: table;
+  width: 100%;
 }
 
 .seasonSelection {
-    max-width: 500px;
+  max-width: 500px;
 }
 
 .submitButton {
-    float: left;
-    width: 20%;
+  float: left;
+  width: 20%;
+  height: 40px;
+  font-weight: bold;
+  background: #ee0000;
+  outline: none;
+  border: var(--f1-red-color);
+  cursor: pointer;
 }
 
-.seasonDropDown {
-    width: 80%;
-    float: left;
+.submitButton:hover,
+.submitButton:active,
+.submitButton:disabled {
+  background-color: var(--global-background) !important;
+}
+
+.dropDown {
+  width: 260px;
+  float: left;
+  padding: 0 10px;
+  background: #494949;
+  border: 1px solid #363636;
+  color: white;
+  height: 40px;
+  outline: none;
+  font-size: 1em;
+}
+
+.dropDown:focus,
+.dropDown:active,
+.dropDown:focus-visible {
+  border: 1px solid #363636;
+}
+
+.dropDown:focus {
+  color: white;
+  background: #494949;
 }
 
 .styles {
-    float: none;
+  float: none;
+}
+
+.seasonResults {
+  margin-top: 30px;
 }
