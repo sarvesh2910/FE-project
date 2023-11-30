@@ -56,7 +56,7 @@ const Teams = () => {
             <div className="form-group">
               <input
                 name="season"
-                className={`${styles.dropDown} form-control`}
+                className={`${styles.dropDown} form-control rounded-0`}
                 id="season"
                 type="number"
                 min="1950"
@@ -64,7 +64,7 @@ const Teams = () => {
                 defaultValue="2023"
               />
               <input
-                className={`${styles.submitButton} btn btn-primary`}
+                className={`${styles.submitButton} btn btn-primary rounded-0`}
                 type="submit"
                 value="Select"
               />

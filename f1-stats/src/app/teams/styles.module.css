@@ -23,8 +23,8 @@
   cursor: pointer;
 }
 
-.submitButton:hover {
-  background: var(--global-background);
+.submitButton:hover, .submitButton:active, .submitButton:disabled {
+  background-color: var(--global-background) !important;
 }
 
 .dropDown {
