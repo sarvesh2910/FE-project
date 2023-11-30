@@ -1,10 +1,10 @@
 :root {
+    /*  define css variables here*/
     --navbar-height: 70px;
     --f1-red-color: #EE0000;
     --global-background: #15151e;
-    --content-max-width: 1440px;
+    --content-max-width: 1240px;
     --content-padding-sides: 0 20px
-    /*  define css variables here*/
 }
 
 * {
