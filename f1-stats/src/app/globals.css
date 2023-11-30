@@ -17,7 +17,7 @@ html,
 body {
     max-width: 100vw;
     background-color: #1a1a1a!important;
-    color: white;
+    color: white !important;
     font-family: sans-serif;
 }
 
@@ -28,6 +28,7 @@ body {
     padding: var(--content-padding-sides);
     margin: auto;
     padding-top: 20px;
+    background: #1a1a1a;
 }
 
 a {

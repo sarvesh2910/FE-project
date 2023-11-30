@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest"
   },
   "dependencies": {
     "@carbon/charts-react": "1.13.8",
@@ -21,6 +22,7 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@testing-library/react": "^14.1.2",
     "eslint": "^8",
     "eslint-config-next": "14.0.2"
   },
