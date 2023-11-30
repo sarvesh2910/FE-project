@@ -1,16 +1,16 @@
 :root {
-    /*  define css variables here*/
-    --navbar-height: 70px;
-    --f1-red-color: #EE0000;
-    --global-background: #15151e;
-    --content-max-width: 1240px;
-    --content-padding-sides: 0 20px
+  /*  define css variables here*/
+  --navbar-height: 70px;
+  --f1-red-color: #ee0000;
+  --global-background: #15151e;
+  --content-max-width: 1240px;
+  --content-padding-sides: 0 20px;
 }
 
 * {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 html,
@@ -22,29 +22,27 @@ body {
 }
 
 .content {
-    overflow-y: hidden;
-    width: 100%;
-    max-width: var(--content-max-width);
-    padding: var(--content-padding-sides);
-    margin: auto;
-    padding-top: 20px;
-    background: #1a1a1a;
+  overflow-y: hidden;
+  width: 100%;
+  max-width: var(--content-max-width);
+  padding: var(--content-padding-sides);
+  margin: auto;
+  padding-top: 20px;
+  background: #1a1a1a;
 }
 
 a {
-    color: inherit;
-    text-decoration: none;
+  color: inherit;
+  text-decoration: none;
 }
 
 .card {
-    background: #1a1a1a;
-    color: white;
+  background: #1a1a1a;
+  color: white;
 }
 
-/* Positions Bar Graph on Teams page */
-.positionBar {
-    background-image:url('/finishline.jpg');
-    background-repeat: repeat-y;
-    padding-right: 20px;
-    background-position: top right;
+.backToLink {
+  color: grey;
+  display: block;
+  margin-bottom: 2em;
 }

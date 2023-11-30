@@ -17,51 +17,9 @@ exports[`renders homepage unchanged 1`] = `
             <div
               class="lastRaceContainer"
             >
-              <h2>
-                Most Recent Race: 
-              </h2>
-              <div
-                class="lastRace"
-              >
-                <div
-                  class="row"
-                >
-                  <div
-                    class="col-lg-4 col-md-6"
-                  >
-                    <h3 />
-                    <p />
-                    <a
-                      href=""
-                      target="_blank"
-                    >
-                      View on Wikipedia
-                    </a>
-                  </div>
-                  <div
-                    class="col-lg-8 col-md-6"
-                  >
-                    <div
-                      style="height: 30vh; width: 100%;"
-                    >
-                      <div
-                        style="width: 100%; height: 100%; margin: 0px; padding: 0px; position: relative;"
-                      >
-                        <div
-                          style="width: 100%; height: 100%; left: 0px; top: 0px; margin: 0px; padding: 0px; position: absolute;"
-                        />
-                        <div
-                          style="width: 50%; height: 50%; left: 50%; top: 50%; margin: 0px; padding: 0px; position: absolute;"
-                        >
-                          <div
-                            style="width: 100%; height: 100%; left: 0px; top: 0px; margin: 0px; padding: 0px; position: absolute;"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <p>
+                Loading...
+              </p>
             </div>
           </div>
         </div>
@@ -81,51 +39,9 @@ exports[`renders homepage unchanged 1`] = `
           <div
             class="lastRaceContainer"
           >
-            <h2>
-              Most Recent Race: 
-            </h2>
-            <div
-              class="lastRace"
-            >
-              <div
-                class="row"
-              >
-                <div
-                  class="col-lg-4 col-md-6"
-                >
-                  <h3 />
-                  <p />
-                  <a
-                    href=""
-                    target="_blank"
-                  >
-                    View on Wikipedia
-                  </a>
-                </div>
-                <div
-                  class="col-lg-8 col-md-6"
-                >
-                  <div
-                    style="height: 30vh; width: 100%;"
-                  >
-                    <div
-                      style="width: 100%; height: 100%; margin: 0px; padding: 0px; position: relative;"
-                    >
-                      <div
-                        style="width: 100%; height: 100%; left: 0px; top: 0px; margin: 0px; padding: 0px; position: absolute;"
-                      />
-                      <div
-                        style="width: 50%; height: 50%; left: 50%; top: 50%; margin: 0px; padding: 0px; position: absolute;"
-                      >
-                        <div
-                          style="width: 100%; height: 100%; left: 0px; top: 0px; margin: 0px; padding: 0px; position: absolute;"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <p>
+              Loading...
+            </p>
           </div>
         </div>
       </div>

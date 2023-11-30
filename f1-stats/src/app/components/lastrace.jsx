@@ -27,7 +27,6 @@ const LastRace = () => {
 
     // Fetch description data from Wikipedia asynchronously
     const getWikiData = async function fetchWikiDataFromURL(endpoint) {
-        console.log(endpoint);
         try {
             const response = await fetch(endpoint);
 
