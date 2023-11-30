@@ -26,8 +26,5 @@
     "@testing-library/react": "^14.1.2",
     "eslint": "^8",
     "eslint-config-next": "14.0.2"
-  },
-  "engines": {
-    "node": "^20"
   }
 }
