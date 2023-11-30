@@ -1,0 +1,48 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.seasonInfo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 40px 0px;
+}
+.seasonInfo h2{
+    font-size: 3em;
+    font-weight: bolder;
+    font-style: italic;
+}
+.standings{
+    display: flex;
+    position: relative;
+    flex-flow: wrap;
+}
+.partition{
+    padding: 0 10px;
+    border-right: 1px solid gray;
+    border-left: 1px solid gray;
+    margin-bottom: 40px;
+}
+.partition h2{
+    text-align: center;
+
+}
+.border{
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    height: 80%;
+    margin: auto;
+    width: 0;
+}
+.driver {
+    border-right:none;
+    width: 50%;
+}
+
+.team {
+    width: 50%;
+}

@@ -42,3 +42,22 @@ export async function getLapByLaps(season,round) {
         })
 }
 
+export async function getCurrentDriverStandings() {
+    return await fetch(`https://ergast.com/api/f1/current/driverStandings.json`)
+        .then(data => data.json())
+        .then(data => data.MRData.StandingsTable.StandingsLists[0].DriverStandings)
+        .catch(error => {
+            console.error(error)
+            return error
+        })
+}
+
+export async function getCurrentTeamsStandings() {
+    return await fetch(`https://ergast.com/api/f1/current/constructorStandings.json`)
+        .then(data => data.json())
+        .then(data => data.MRData.StandingsTable.StandingsLists[0].ConstructorStandings)
+        .catch(error => {
+            console.error(error)
+            return error
+        })
+}
