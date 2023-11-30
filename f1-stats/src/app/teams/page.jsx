@@ -9,7 +9,7 @@ const Teams = () => {
   let [seasonsList, setSeasonsList] = useState([])
   const [teams, setTeams] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState("");
-  const url = `http://ergast.com/api/f1/${selectedSeason}/constructors.json`;
+  const url = `https://ergast.com/api/f1/${selectedSeason}/constructors.json`;
 
   // Fetch data from API asyncronously
   const getData = async function fetchDataFromURL(endpoint) {
@@ -56,7 +56,7 @@ const Teams = () => {
 
     //Set season and re-collect data
     getData(
-      `http://ergast.com/api/f1/${event.target.value}/constructors.json`
+      `https://ergast.com/api/f1/${event.target.value}/constructors.json`
     ).then(
       setTimeout(() => {
         setLoading(false);

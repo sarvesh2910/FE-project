@@ -65,13 +65,13 @@ const Team = () => {
   const [previousYearBestPosition, setPreviousYearBestPosition] = useState();
 
   // Initialize URLs for API requests
-  const teamUrl = `http://ergast.com/api/f1/${season}/constructors/${teamId}.json`;
+  const teamUrl = `https://ergast.com/api/f1/${season}/constructors/${teamId}.json`;
   const teamDriversUrl = `https://ergast.com/api/f1/${season}/constructors/${teamId}/drivers.json`;
-  const teamResultsUrl = `http://ergast.com/api/f1/${season}/constructors/${teamId}/results.json?limit=100`;
+  const teamResultsUrl = `https://ergast.com/api/f1/${season}/constructors/${teamId}/results.json?limit=100`;
 
   // Get last season year // need to handle when last year doesn't have data
   const lastSeason = season - 1;
-  const teamResultsLastYearUrl = `http://ergast.com/api/f1/${lastSeason}/constructors/${teamId}/results.json?limit=100`;
+  const teamResultsLastYearUrl = `https://ergast.com/api/f1/${lastSeason}/constructors/${teamId}/results.json?limit=100`;
 
   // Fetch team data from API asyncronously
   useEffect(() => {
