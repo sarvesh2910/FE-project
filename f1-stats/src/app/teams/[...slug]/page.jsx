@@ -67,11 +67,11 @@ const Team = () => {
   // Initialize URLs for API requests
   const teamUrl = `http://ergast.com/api/f1/${season}/constructors/${teamId}.json`;
   const teamDriversUrl = `https://ergast.com/api/f1/${season}/constructors/${teamId}/drivers.json`;
-  const teamResultsUrl = `http://ergast.com/api/f1/${season}/constructors/${teamId}/results.json`;
+  const teamResultsUrl = `http://ergast.com/api/f1/${season}/constructors/${teamId}/results.json?limit=100`;
 
   // Get last season year // need to handle when last year doesn't have data
   const lastSeason = season - 1;
-  const teamResultsLastYearUrl = `http://ergast.com/api/f1/${lastSeason}/constructors/${teamId}/results.json`;
+  const teamResultsLastYearUrl = `http://ergast.com/api/f1/${lastSeason}/constructors/${teamId}/results.json?limit=100`;
 
   // Fetch team data from API asyncronously
   useEffect(() => {
@@ -166,12 +166,15 @@ const Team = () => {
         const thisRacePointsArray = races[i]["Results"].map(
           (result) => result["points"]
         );
-        let thisRacePoints = thisRacePointsArray.reduce(
-          (partialSum, a) => parseInt(partialSum) + parseInt(a),
-          0
-        );
+
+        console.log(thisRacePointsArray);
+
+        let thisRacePoints = thisRacePointsArray.reduce((partialSum, a) => parseInt(partialSum) + parseInt(a), 0);
+
+        console.log(`${parseInt(thisRacePointsArray[0])} + ${parseInt(thisRacePointsArray[1])} = ${thisRacePoints}`);
 
         resultArray.push(j + thisRacePoints);
+        console.log(resultArray);
 
         const highestResult = races[i]["Results"].reduce(function (
           prev,
@@ -413,22 +416,23 @@ const Team = () => {
             <div className="row">
               <div className="col-lg-4">
                 <div className={`${styles.stat} card rounded-0`}>
-                  <div class={`${styles.statHeader} card-header rounded-0`}>
+                  <div className={`${styles.statHeader} card-header rounded-0`}>
                     <h3 className={styles.sectionTitleH3}>Total Points</h3>
                   </div>
-                  <div class="card-body">
+                  <div className="card-body">
                     <p className={styles.totalPoints}>
                       {teamResults[teamResults.length - 1]}
                     </p>
+                    <p>(Not including sprint races)</p>
                   </div>
                 </div>
               </div>
               <div className="col-lg-4 col-md-6">
                 <div className={`${styles.stat} card rounded-0`}>
-                  <div class={`${styles.statHeader} card-header rounded-0`}>
+                  <div className={`${styles.statHeader} card-header rounded-0`}>
                     <h3 className={styles.sectionTitleH3}>Top Race Score</h3>
                   </div>
-                  <div class="card-body">
+                  <div className="card-body">
                     <p>Race: {topScoringRace.raceName}</p>
                     <p>Driver: {topScoringRace.driver}</p>
                     <p>Score: {topScoringRace.score}</p>
@@ -439,10 +443,10 @@ const Team = () => {
               </div>
               <div className="col-lg-4 col-md-6">
                 <div className={`${styles.stat} card rounded-0`}>
-                  <div class={`${styles.statHeader} card-header rounded-0`}>
+                  <div className={`${styles.statHeader} card-header rounded-0`}>
                     <h3 className={styles.sectionTitleH3}>Lowest Race Score</h3>
                   </div>
-                  <div class="card-body">
+                  <div className="card-body">
                     <p>Race: {bottomScoringRace.raceName}</p>
                     <p>Driver: {bottomScoringRace.driver}</p>
                     <p>Score: {bottomScoringRace.score}</p>
@@ -457,7 +461,7 @@ const Team = () => {
             <div className="row">
               <div className="col-lg-6">
                 <div className={`${styles.stat} card rounded-0`}>
-                  <div class={`${styles.statHeader} card-header rounded-0`}>
+                  <div className={`${styles.statHeader} card-header rounded-0`}>
                     <h2 className={styles.sectionTitle}>
                       Previous Total Points
                     </h2>
@@ -469,7 +473,7 @@ const Team = () => {
               </div>
               <div className="col-lg-6">
                 <div className={`${styles.stat} card rounded-0`}>
-                  <div class={`${styles.statHeader} card-header rounded-0`}>
+                  <div className={`${styles.statHeader} card-header rounded-0`}>
                     <h2 className={styles.sectionTitle}>
                       Previous Best Finish Position
                     </h2>
