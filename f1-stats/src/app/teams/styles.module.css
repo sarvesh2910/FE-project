@@ -1,0 +1,21 @@
+.teamsTitle {
+    margin-bottom: 30px;
+}
+
+.seasonSelection {
+    max-width: 500px;
+}
+
+.submitButton {
+    float: left;
+    width: 20%;
+}
+
+.seasonDropDown {
+    width: 80%;
+    float: left;
+}
+
+.styles {
+    float: none;
+}
