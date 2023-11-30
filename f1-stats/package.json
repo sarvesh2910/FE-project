@@ -30,6 +30,7 @@
     "jest-environment-jsdom": "^29.7.0"
   },
   "engines": {
-    "node": "^20"
+    "node": "^20",
+    "eslint-config-next": "14.0.2"
   }
 }
