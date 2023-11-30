@@ -72,7 +72,7 @@ const Teams = () => {
           <label hidden={true} htmlFor="season">Select a season</label>
                 <select className={styles.dropDown} name="season" id="" value={selectedSeason}
                         onChange={handleSeasonChange}>
-                    <option disabled value="" selected>Select Season</option>
+                    <option disabled value="" defaultValue>Select Season</option>
                     {seasonsList.map((season, index) => (
                         <option key={season.season} value={season.season}>
                             {season.season}
