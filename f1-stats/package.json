@@ -10,20 +10,16 @@
     "test": "jest"
   },
   "dependencies": {
+    "@carbon/charts-react": "1.13.8",
     "bootstrap": "^5.3.2",
     "chartjs": "^0.3.24",
-    "google-map-react": "^2.2.1",
-    "next": "14.0.2",
-    "react": "^18",
-    "react-chartjs-2": "^5.2.0",
-    "react-dom": "^18",
-    "next": "14.0.2",
-    "react": "^18",
-    "react-dom": "^18",
-    "@carbon/charts-react": "1.13.8",
     "d3": "^7.8.5",
     "d3-cloud": "^1.2.7",
-    "d3-sankey": "^0.12.3"
+    "d3-sankey": "^0.12.3",
+    "next": "14.0.2",
+    "react-chartjs-2": "^5.2.0",
+    "react": "^18",
+    "react-dom": "^18"
   },
   "devDependencies": {
     "@testing-library/react": "^14.1.2",
@@ -33,5 +29,4 @@
   "engines": {
     "node": "^20"
   }
-
 }

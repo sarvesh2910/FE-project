@@ -16,7 +16,7 @@
 html,
 body {
     max-width: 100vw;
-    background-color: #1a1a1a;
+    background-color: #1a1a1a!important;
     color: white !important;
     font-family: sans-serif;
 }
