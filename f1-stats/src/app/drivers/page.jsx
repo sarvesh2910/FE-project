@@ -19,7 +19,7 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-import './styles.css'; 
+import './styles.css';
 
 
 function DriversList() {
@@ -36,7 +36,7 @@ function DriversList() {
   useEffect(() => {
     if (yearFilter.length === 4) {
       setLoading(true);
-      fetch(`http://ergast.com/api/f1/${yearFilter}/drivers.json`)
+      fetch(`https://ergast.com/api/f1/${yearFilter}/drivers.json`)
         .then((response) => response.json())
         .then((data) => {
           setDrivers(data.MRData.DriverTable.Drivers);
@@ -53,7 +53,7 @@ function DriversList() {
 
     if (selectedDriver && yearFilter.length === 4) {
       const lastName = selectedDriver.familyName.toLowerCase();
-      fetch(`http://ergast.com/api/f1/${yearFilter}/drivers/${lastName}/results.json`)
+      fetch(`https://ergast.com/api/f1/${yearFilter}/drivers/${lastName}/results.json`)
         .then((response) => response.json())
         .then((data) => {
           setRaceResult(data.MRData.RaceTable);
@@ -215,12 +215,12 @@ function DriversList() {
       {/* Race results */}
       {raceResult && <Bar data={chartData} />}
       {raceResult && (
-        <div > 
+        <div >
           <h3 className="mt-5">Race Results</h3>
           <table>
             <thead>
               <tr>
-              
+
                 <th>Year</th>
                 <th>Circuit</th>
                 <th>Position</th>
@@ -232,7 +232,7 @@ function DriversList() {
                 <th>Status</th>
                 <th>Points Won</th>
               </tr>
-              
+
             </thead>
             <tbody>
               {raceResult.Races.map((race, index) =>
@@ -253,7 +253,7 @@ function DriversList() {
               )}
             </tbody>
           </table>
-         
+
         </div>
       )}
     </div>
