@@ -1,14 +1,16 @@
 'use client'
-import { React, useState, useEffect } from 'react';
+import {React} from 'react';
 import LastRace from './components/lastrace';
+import HomeDash from "@/app/components/home";
+
 
 const Home = () => {
-
     return (
-        <div className='container'>
-            <div className="row">
-                <div className="col-lg-8">
-                <LastRace></LastRace>
+        <div className=''>
+            <div className="">
+                <div className="">
+                    <LastRace></LastRace>
+                    <HomeDash/>
                 </div>
             </div>
         </div>

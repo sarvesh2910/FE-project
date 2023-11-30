@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.seasonInfo{
+
+}
+.standings{
+    display: flex;
+    position: relative;
+    flex-flow: wrap;
+}
+.partition{
+    padding: 0 10px;
+}
+.border{
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    height: 80%;
+    margin: auto;
+    border-right: 1px solid gray;
+    width: 0;
+}
+.driver {
+    width: 50%;
+}
+
+.team {
+    width: 50%;
+}
