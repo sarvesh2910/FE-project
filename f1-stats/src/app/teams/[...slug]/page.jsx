@@ -77,7 +77,7 @@ const Team = () => {
   useEffect(() => {
     getAll().then(setTimeout(() => {
       setLoading(false);
-    }, "1500"));
+    }, "1600"));
   }, []);
 
   const getAll = async function getAllData() {
@@ -137,7 +137,6 @@ const Team = () => {
 
       // Get races from data
       const races = data["MRData"]["RaceTable"]["Races"];
-      console.log(races);
       setTeamRaces(races);
 
       // Now get highest & lowerst scoring races
@@ -360,6 +359,10 @@ const Team = () => {
     scales: {
       x: {
         reverse: true,
+        title: {
+          display: true,
+          text: 'Positions'
+        },
       },
     },
   };
