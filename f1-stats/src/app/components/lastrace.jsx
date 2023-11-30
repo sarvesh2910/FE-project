@@ -118,7 +118,7 @@ const LastRace = () => {
                             <div className={`col-lg-4 col-md-6 ${style.circuitInfo}`}>
                                 <p>{gpDate}</p>
                                 <h2>{gpName}</h2>
-                                <h4>{circuit.circuitName}, {circuit.Location.country}.</h4>
+                                <h4>{circuit?.circuitName}, {circuit?.Location?.country}.</h4>
                                 <div>
                                     <p>{pageProps.desc}.</p>
                                     <p>Circuit Length : {circuitLength?.toFixed(2)}KM</p>
