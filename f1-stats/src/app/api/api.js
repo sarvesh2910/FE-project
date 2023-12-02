@@ -20,7 +20,6 @@ export async function getSeasonRounds(season) {
 }
 
 export async function getRaceResults(season,round) {
-    console.log(season);
     return await fetch(`https://ergast.com/api/f1/${season}/${round}/results.json?`)
         .then(data => data.json())
         .then(data => data.MRData.RaceTable)
@@ -56,6 +55,16 @@ export async function getCurrentTeamsStandings() {
     return await fetch(`https://ergast.com/api/f1/current/constructorStandings.json`)
         .then(data => data.json())
         .then(data => data.MRData.StandingsTable.StandingsLists[0].ConstructorStandings)
+        .catch(error => {
+            console.error(error)
+            return error
+        })
+}
+
+export async function getWeather(lat,long,date,time){
+    const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${long}/${date}T${time}?key=53DXD9WW3UAXMT2VSD4YSLH7V&include=current&timezone=Z`
+    return await fetch(url).then(data => data.json())
+        .then(data => data)
         .catch(error => {
             console.error(error)
             return error
