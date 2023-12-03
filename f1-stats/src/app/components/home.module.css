@@ -19,16 +19,20 @@
     display: flex;
     position: relative;
     flex-flow: wrap;
+    justify-content: center;
+    align-items: center;
 }
 .partition{
     padding: 0 10px;
     border-right: 1px solid gray;
     border-left: 1px solid gray;
     margin-bottom: 40px;
+    min-width: 350px;
+    max-width: calc(100%/2);
+    width: 100%;
 }
 .partition h2{
     text-align: center;
-
 }
 .border{
     position: absolute;
@@ -37,12 +41,4 @@
     height: 80%;
     margin: auto;
     width: 0;
-}
-.driver {
-    border-right:none;
-    width: 50%;
-}
-
-.team {
-    width: 50%;
 }

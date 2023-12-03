@@ -1,6 +1,6 @@
 'use client'
 import React, {useEffect, useState} from "react";
-import {getRaceResults, getSeasonRounds, getSeasonsList} from '../api/api'
+import {getRaceResults, getSeasonRounds, getSeasonsList, getWeather} from '../api/api'
 import PositionChart from "@/app/races/positionPerLap";
 import style from './races.module.css';
 import Podium from "@/app/races/podium";
@@ -18,6 +18,7 @@ const Races = () => {
     let [roundsList, setRoundsList] = useState([])
     let [selectedSeason, setSelectedSeason] = useState("")
     let [selectedRound, setSelectedRound] = useState(null)
+    let [weather, setWeather] = useState(null)
     let [raceResult, setRaceResult] = useState(null)
     let [fastestLap, setFastestLap] = useState(null)
     let [podium, setPodium] = useState({})
@@ -74,15 +75,32 @@ const Races = () => {
         setPodium(podiumObject)
     }
 
+    const getWeatherString = async (results) => {
+        try {
+            const {lat, long} = {...results.Races[0].Circuit.Location}
+            const {date, time} = {...results.Races[0]}
+            let weatherData = await getWeather(lat, long, date, time)
+            let {conditions = null, temp = null} = weatherData?.currentConditions
+            return conditions ? `Conditions : ${conditions} with ${temp}F` : null
+        } catch (e) {
+            console.log(e);
+            return null
+        }
+
+    }
+
+
     const handleRoundChange = async (event) => {
         setLoading(true)
         setSelectedRound(event.target.value);
         setRaceResult(null)
         setFastestLap(null)
         let results = await getRaceResults(selectedSeason, event.target.value)
+        let weather = getWeatherString(results)
         fastLap(results);
         createDriverMappings(results)
         podiumsFinishers(results)
+        setWeather(weather)
         setRaceResult(results)
         setLoading(false)
     };
@@ -126,7 +144,8 @@ const Races = () => {
                 <div>
                     <p>{formatDate(raceResult.Races[0].date)}</p>
                     <h2> {raceResult.Races[0].raceName}</h2>
-                    <p>{raceResult.Races[0].Circuit.circuitName}, {raceResult.Races[0].Circuit.Location.locality}, {raceResult.Races[0].Circuit.Location.country}.</p>
+                    <p className={style.circuitName}>{raceResult.Races[0].Circuit.circuitName}, {raceResult.Races[0].Circuit.Location.locality}, {raceResult.Races[0].Circuit.Location.country}.</p>
+                    <p className={style.weather}>{weather}</p>
                 </div>
             </div>
         }
@@ -171,7 +190,7 @@ const Races = () => {
                 round={selectedRound}
                 season={selectedSeason}
                 fastestLap={fastestLap}
-                driverMapping = {driverMapping}
+                driverMapping={driverMapping}
             /> : ''
         }
 

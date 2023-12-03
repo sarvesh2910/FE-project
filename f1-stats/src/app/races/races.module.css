@@ -101,6 +101,10 @@
 .gpInfo p{
     font-size: 1.2em;
     font-style: italic;
+    margin: 0;
+}
+.weather{
+    font-style: normal!important;
 }
 
 .gpInfo h2{
